@@ -1,4 +1,14 @@
 class AnalysesController < ApplicationController
+  # GET /analyses → redireciona para a última análise ou para new
+  def index
+    analysis = current_user.analyses.last
+    if analysis
+      redirect_to analysis_path(analysis)
+    else
+      redirect_to new_analysis_path
+    end
+  end
+
   # GET /analyses/new
   def new
     @analysis = Analysis.new

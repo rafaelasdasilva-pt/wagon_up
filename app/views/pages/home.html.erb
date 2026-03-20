@@ -1,2 +1,217 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<%# ── Hero ──────────────────────────────────────────────────────────────────── %>
+<div class="wu-hero">
+  <div class="wu-hero-badge sr">
+    <span class="dot"></span>
+    TRUSTED BY 2,400+ CAREER PIVOTERS
+  </div>
+
+  <h1 class="wu-hero-h1 sr d1">
+    You don't need more skills.<br>
+    <span class="accent">You need the right positioning.</span>
+  </h1>
+
+  <p class="wu-hero-sub sr d2">
+    Your past experience isn't an obstacle — it's your differentiator. Let our AI coach Chloe
+    reposition your career story and land your first tech job.
+  </p>
+
+  <div class="sr d3" style="position:relative;z-index:1">
+    <% if user_signed_in? %>
+      <%= link_to "Go to my profile →", analyses_path, class: "btn-wu btn-wu-primary btn-wu-lg" %>
+    <% else %>
+      <%= link_to "Analyse my profile →", new_user_session_path, class: "btn-wu btn-wu-primary btn-wu-lg" %>
+    <% end %>
+    <p class="wu-hero-note sr d4">Free analysis · No credit card required</p>
+  </div>
+</div>
+
+<%# ── Stats band ───────────────────────────────────────────────────────────── %>
+<div class="wu-stats-band">
+  <div class="wu-stat-cell">
+    <span class="wu-stat-n">87%</span>
+    <span class="wu-stat-l">Interview success rate</span>
+  </div>
+  <div class="wu-stat-cell">
+    <span class="wu-stat-n">2,400+</span>
+    <span class="wu-stat-l">Careers repositioned</span>
+  </div>
+  <div class="wu-stat-cell">
+    <span class="wu-stat-n">4.9/5</span>
+    <span class="wu-stat-l">Average user rating</span>
+  </div>
+</div>
+
+<%# ── Features ─────────────────────────────────────────────────────────────── %>
+<section class="py-9" style="background:#fff">
+  <div class="container" style="max-width:1100px">
+    <div class="text-center mb-5">
+      <h2 class="fw-800 fs-2">Three tools. One goal: <span class="text-brand">get hired.</span></h2>
+      <p style="color:var(--ink-3);max-width:480px;margin:0 auto;line-height:1.7">
+        Everything you need to go from bootcamp grad to confident tech hire.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-md-4 sr">
+        <div class="wu-card wu-card-hover h-100">
+          <div style="font-size:2rem;margin-bottom:1rem">🧠</div>
+          <h5 class="fw-800 mb-2">Smart Analysis</h5>
+          <p style="color:var(--ink-3);font-size:.9rem;line-height:1.7">
+            Upload your CV and our AI reads between the lines — extracting transferable skills
+            your resume never made explicit.
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 sr d1">
+        <div class="wu-card wu-card-hover h-100">
+          <div style="font-size:2rem;margin-bottom:1rem">🎯</div>
+          <h5 class="fw-800 mb-2">Role Matching</h5>
+          <p style="color:var(--ink-3);font-size:.9rem;line-height:1.7">
+            Get 3 tailored career paths ranked by market fit — with justification, salary data,
+            and a ready-to-use resume prompt.
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 sr d2">
+        <div class="wu-card wu-card-hover h-100">
+          <div style="font-size:2rem;margin-bottom:1rem">💬</div>
+          <h5 class="fw-800 mb-2">AI Interview Coach</h5>
+          <p style="color:var(--ink-3);font-size:.9rem;line-height:1.7">
+            Practice with Chloe, your personal AI coach. Get real-time feedback, scores, and
+            improvement tips after each answer.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# ── How it works ─────────────────────────────────────────────────────────── %>
+<section class="py-9" id="how-it-works">
+  <div class="container" style="max-width:1100px">
+    <div class="text-center mb-5">
+      <h2 class="fw-800 fs-2">How it works</h2>
+      <p style="color:var(--ink-3);max-width:480px;margin:0 auto;line-height:1.7">
+        Four steps from upload to offer. The whole process takes under 10 minutes.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-md-3 text-center sr">
+        <div class="wu-step-circle">01</div>
+        <h6 class="fw-800 mb-2">Upload your CV</h6>
+        <p style="font-size:.85rem;color:var(--ink-3);line-height:1.6">Drop your PDF and we extract your full career story in seconds.</p>
+      </div>
+      <div class="col-12 col-md-3 text-center sr d1">
+        <div class="wu-step-circle">02</div>
+        <h6 class="fw-800 mb-2">Get your analysis</h6>
+        <p style="font-size:.85rem;color:var(--ink-3);line-height:1.6">Our AI identifies your transferable skills and market positioning.</p>
+      </div>
+      <div class="col-12 col-md-3 text-center sr d2">
+        <div class="wu-step-circle">03</div>
+        <h6 class="fw-800 mb-2">Explore career paths</h6>
+        <p style="font-size:.85rem;color:var(--ink-3);line-height:1.6">Choose from 3 curated roles matched to your unique background.</p>
+      </div>
+      <div class="col-12 col-md-3 text-center sr d3">
+        <div class="wu-step-circle">04</div>
+        <h6 class="fw-800 mb-2">Practice with Chloe</h6>
+        <p style="font-size:.85rem;color:var(--ink-3);line-height:1.6">Run mock interviews and get scored feedback until you're ready.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# ── Testimonials ─────────────────────────────────────────────────────────── %>
+<section class="py-9" style="background:#fff">
+  <div class="container" style="max-width:1100px">
+    <div class="text-center mb-5">
+      <h2 class="fw-800 fs-2">They pivoted. <span class="text-brand">So can you.</span></h2>
+      <p style="color:var(--ink-3);max-width:480px;margin:0 auto;line-height:1.7">
+        Real stories from bootcamp grads who used Wagon Up to land their first tech role.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-md-4 sr">
+        <div class="wu-card wu-card-hover h-100">
+          <div style="color:#F59E0B;font-size:1rem;margin-bottom:1rem">★★★★★</div>
+          <p style="font-size:.88rem;color:var(--ink-2);line-height:1.7;font-style:italic;margin-bottom:1.25rem">
+            "I never thought my 6 years in marketing were an asset for dev roles. Chloe completely
+            changed how I talked about myself in interviews. Got an offer in 5 weeks."
+          </p>
+          <div class="d-flex align-items-center gap-3">
+            <div class="wu-avatar" style="flex-shrink:0">SM</div>
+            <div>
+              <div style="font-size:.85rem;font-weight:700">Sarah M.</div>
+              <div style="font-size:.75rem;color:var(--ink-3)">Ex-Marketing → Junior Dev at Doctolib</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 sr d1">
+        <div class="wu-card wu-card-hover h-100">
+          <div style="color:#F59E0B;font-size:1rem;margin-bottom:1rem">★★★★★</div>
+          <p style="font-size:.88rem;color:var(--ink-2);line-height:1.7;font-style:italic;margin-bottom:1.25rem">
+            "The role matching was scarily accurate. I didn't even know Product Engineering was a thing
+            until Wagon Up suggested it. It was the perfect fit."
+          </p>
+          <div class="d-flex align-items-center gap-3">
+            <div class="wu-avatar" style="flex-shrink:0">TL</div>
+            <div>
+              <div style="font-size:.85rem;font-weight:700">Thomas L.</div>
+              <div style="font-size:.75rem;color:var(--ink-3)">Ex-Finance → Product Engineer at Alan</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 sr d2">
+        <div class="wu-card wu-card-hover h-100">
+          <div style="color:#F59E0B;font-size:1rem;margin-bottom:1rem">★★★★★</div>
+          <p style="font-size:.88rem;color:var(--ink-2);line-height:1.7;font-style:italic;margin-bottom:1.25rem">
+            "Practicing with Chloe every day for 2 weeks made me so much more confident. I went from
+            bombing technicals to getting compliments on my communication skills."
+          </p>
+          <div class="d-flex align-items-center gap-3">
+            <div class="wu-avatar" style="flex-shrink:0">AK</div>
+            <div>
+              <div style="font-size:.85rem;font-weight:700">Amina K.</div>
+              <div style="font-size:.75rem;color:var(--ink-3)">Ex-Teacher → Full Stack Dev at BlaBlaCar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# ── CTA dark ─────────────────────────────────────────────────────────────── %>
+<div class="wu-cta-dark">
+  <div style="position:relative;z-index:1">
+    <h2 class="fw-800 fs-2" style="color:#fff;margin-bottom:.75rem">
+      Ready to rewrite your career story?
+    </h2>
+    <p style="color:rgba(255,255,255,.6);max-width:460px;margin:0 auto 2rem;line-height:1.7">
+      Join 2,400+ bootcamp grads who repositioned their past and landed their first tech job.
+    </p>
+    <%= link_to "Get started — it's free →", new_user_registration_path, class: "btn-wu btn-wu-primary btn-wu-lg" %>
+    <div class="d-flex align-items-center justify-content-center gap-4 mt-4 flex-wrap">
+      <span style="font-size:.78rem;color:rgba(255,255,255,.4)">✓ Free forever plan</span>
+      <span style="font-size:.78rem;color:rgba(255,255,255,.4)">✓ No credit card</span>
+      <span style="font-size:.78rem;color:rgba(255,255,255,.4)">✓ GDPR compliant</span>
+    </div>
+  </div>
+</div>
+
+<%# ── Footer ───────────────────────────────────────────────────────────────── %>
+<footer class="wu-footer">
+  <div>
+    <div class="wu-footer-brand">Wagon Up</div>
+    <div class="wu-footer-tagline">Career AI for bootcamp grads</div>
+  </div>
+  <div class="wu-footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="wu-footer-copy">© 2026 Wagon Up. All rights reserved.</div>
+</footer>

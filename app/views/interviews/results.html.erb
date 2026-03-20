@@ -1,0 +1,124 @@
+<% @interview ||= OpenStruct.new(
+  id: 0,
+  overall_score: 8,
+  feedback_summary: "Strong performance overall. You demonstrated good technical knowledge and communicated your past experience effectively. Focus on quantifying your impact in future answers.",
+  category: "General",
+  role: nil,
+  answers: []
+) %>
+<% @role ||= @interview.role %>
+
+<% content_for :title, "Interview Results — #{@role&.title || "Practice"}" %>
+
+<div style="background:var(--bg);min-height:calc(100vh - 68px);padding:3rem 1rem">
+  <div style="max-width:780px;margin:0 auto">
+
+    <%# Back link %>
+    <%= link_to "← Back to interview", interview_path(@interview),
+        style: "font-size:.83rem;color:var(--ink-3);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;margin-bottom:1.5rem" %>
+
+    <%# ── Results hero ──────────────────────────────────────────────────────── %>
+    <div style="background:#0f0a1e;border-radius:20px;padding:2.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(108,62,244,.2),transparent)"></div>
+      <div style="position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem">
+        <div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem">
+            Interview Results
+          </div>
+          <h1 style="font-size:1.8rem;font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:.5rem">
+            <%= @role ? @role.title : "Practice Interview" %>
+          </h1>
+          <p style="color:rgba(255,255,255,.55);font-size:.88rem;max-width:420px;line-height:1.6;margin:0">
+            <%= @interview.feedback_summary.presence || "Great effort! Keep practicing to sharpen your answers." %>
+          </p>
+        </div>
+        <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:1.5rem;text-align:center;min-width:140px;flex-shrink:0">
+          <span style="font-size:3rem;font-weight:800;color:#fff;line-height:1;display:block">
+            <%= @interview.overall_score || "—" %><span style="font-size:1.4rem;color:rgba(255,255,255,.4)">/10</span>
+          </span>
+          <span style="font-size:.72rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;margin-top:6px;display:block">
+            Overall Score
+          </span>
+          <% if @interview.overall_score %>
+            <% label, color = case @interview.overall_score
+               when 8..10 then ["Excellent", "#4ade80"]
+               when 6..7  then ["Good", "#a78bfa"]
+               when 4..5  then ["Fair", "#fbbf24"]
+               else            ["Keep going", "#f87171"]
+               end %>
+            <span style="font-size:.72rem;font-weight:700;color:<%= color %>;margin-top:4px;display:block"><%= label %></span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <%# ── Score breakdown ────────────────────────────────────────────────────── %>
+    <% answers = @interview.answers.to_a %>
+    <% if answers.any? %>
+      <div class="wu-card mb-4">
+        <div style="font-size:.78rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1.25rem">
+          Question Breakdown
+        </div>
+
+        <% answers.each_with_index do |ans, i| %>
+          <div style="padding:1rem 0;border-bottom:1px solid var(--border)<%= i == answers.size - 1 ? ';border-bottom:none' : '' %>">
+            <div class="d-flex justify-content-between align-items-start mb-2 gap-2">
+              <div style="font-size:.83rem;font-weight:600;color:var(--ink);flex:1">
+                Q<%= i + 1 %><% if ans.question.present? %>: <%= ans.question %><% end %>
+              </div>
+              <% if ans.score %>
+                <% bg = ans.score >= 8 ? "#d1fae5" : ans.score >= 6 ? "#ede8ff" : ans.score >= 4 ? "#fef9c3" : "#fee2e2" %>
+                <% fg = ans.score >= 8 ? "#065f46" : ans.score >= 6 ? "#5b21b6" : ans.score >= 4 ? "#854d0e" : "#991b1b" %>
+                <span style="font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:100px;background:<%= bg %>;color:<%= fg %>;white-space:nowrap;flex-shrink:0">
+                  <%= ans.score %>/10
+                </span>
+              <% end %>
+            </div>
+
+            <% if ans.answer.present? %>
+              <div style="font-size:.83rem;color:var(--ink-2);background:#F9F9FB;border-radius:8px;padding:.75rem;margin-bottom:.6rem;line-height:1.6">
+                <%= ans.answer %>
+              </div>
+            <% end %>
+
+            <% if ans.feedback.present? %>
+              <div style="font-size:.82rem;color:var(--ink-3);line-height:1.6;display:flex;gap:.5rem;align-items:flex-start">
+                <span style="color:var(--brand);flex-shrink:0">✦</span>
+                <span><%= ans.feedback %></span>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# ── Score bar chart ──────────────────────────────────────────────────── %>
+    <% scored = answers.select { |a| a.score } %>
+    <% if scored.size > 1 %>
+      <div class="wu-card mb-4">
+        <div style="font-size:.78rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1.25rem">
+          Score Progression
+        </div>
+        <% scored.each_with_index do |ans, i| %>
+          <div class="d-flex align-items-center gap-3 mb-2">
+            <div style="font-size:.75rem;color:var(--ink-3);width:20px;flex-shrink:0">Q<%= i + 1 %></div>
+            <div class="wu-progress flex-grow-1">
+              <div class="wu-progress-fill" data-width="<%= (ans.score.to_f / 10 * 100).round %>%" style="width:0%"></div>
+            </div>
+            <div style="font-size:.75rem;font-weight:700;color:var(--brand);width:30px;flex-shrink:0;text-align:right"><%= ans.score %>/10</div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# ── Actions ──────────────────────────────────────────────────────────── %>
+    <div class="d-flex gap-3 flex-wrap">
+      <% if @role %>
+        <%= link_to "Practice again →", new_role_interview_path(@role), class: "btn-wu btn-wu-primary" %>
+        <%= link_to "Back to role", role_path(@role), class: "btn-wu btn-wu-outline" %>
+      <% end %>
+      <%= link_to "My profile", analyses_path, class: "btn-wu btn-wu-outline" %>
+    </div>
+
+  </div>
+</div>

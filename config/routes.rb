@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    registrations: "users/registrations",
+    sessions: "users/sessions"
+  }
   root to: "pages#home"
 
   get "dashboard", to: "pages#dashboard", as: :dashboard
 
   # 1. User faz upload do CV → ClaudeAnalyser processa → mostra roles sugeridos
-  resources :analyses, only: [:new, :create, :show]
+  resources :analyses, only: [:index, :new, :create, :show]
 
   # 2. User vê detalhes de um role e inicia entrevista
   resources :roles, only: [:show] do

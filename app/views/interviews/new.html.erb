@@ -1,0 +1,118 @@
+<% @interviews ||= [] %>
+<% @role ||= nil %>
+
+<% content_for :head do %>
+  <style>.wu-main { overflow: hidden; }</style>
+<% end %>
+
+<div class="wu-interview-layout">
+
+  <%# ── Sidebar ───────────────────────────────────────────────────────────── %>
+  <div class="wu-sidebar" id="wuSidebar">
+    <div class="wu-sidebar-inner">
+
+      <button class="btn-wu btn-wu-primary btn-wu-full wu-new-session mb-3" type="button">
+        + New Session
+      </button>
+
+      <div style="font-size:.72rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.6rem">
+        Past Sessions
+      </div>
+
+      <% if @interviews.any? %>
+        <% @interviews.each do |interview| %>
+          <%# TODO: substituir "#" por interview_path(interview) %>
+          <div class="wu-session-item">
+            <div>
+              <div style="font-size:.83rem;font-weight:600"><%= interview.category || "Interview" %></div>
+              <div style="font-size:.72rem;color:var(--ink-3)"><%= interview.created_at.strftime("%b %d") rescue "—" %></div>
+            </div>
+            <span class="wu-score-pill">
+              <%= interview.overall_score ? "#{interview.overall_score}/10" : "—" %>
+            </span>
+          </div>
+        <% end %>
+      <% else %>
+        <p style="font-size:.8rem;color:var(--ink-3);padding:.5rem .75rem;line-height:1.6">
+          Your interview history will appear here. Ready to start? 💪
+        </p>
+      <% end %>
+
+      <div style="height:1px;background:var(--border);margin:1rem 0"></div>
+
+      <div style="font-size:.72rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem">
+        Session Progress
+      </div>
+
+      <div class="d-flex justify-content-between" style="font-size:.82rem;margin-bottom:.3rem">
+        <span>Questions</span>
+        <span id="wuQCount" style="font-weight:600">0/5</span>
+      </div>
+      <div class="wu-progress mb-3">
+        <div class="wu-progress-fill" style="width:0%"></div>
+      </div>
+
+      <div class="d-flex justify-content-between" style="font-size:.82rem;margin-bottom:.3rem">
+        <span>Avg. Score</span>
+        <span style="font-weight:600">—</span>
+      </div>
+      <div class="wu-progress mb-3">
+        <div class="wu-progress-fill" style="width:0%"></div>
+      </div>
+
+      <div style="height:1px;background:var(--border);margin:1rem 0"></div>
+
+      <div style="font-size:.72rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem">
+        Chloe's Tips
+      </div>
+      <p style="font-size:.8rem;color:var(--ink-2);line-height:1.6;margin-bottom:.75rem">
+        💡 Use the STAR method: Situation, Task, Action, Result.
+      </p>
+      <p style="font-size:.8rem;color:var(--ink-2);line-height:1.6;margin-bottom:.75rem">
+        💡 Your past career is a feature, not a bug — always link it back.
+      </p>
+      <p style="font-size:.8rem;color:var(--ink-2);line-height:1.6;margin-bottom:.75rem">
+        💡 Pause before answering. It shows confidence, not hesitation.
+      </p>
+
+    </div>
+  </div>
+
+  <%# Sidebar toggle button %>
+  <button class="wu-sidebar-toggle" id="wuSidebarToggle" aria-label="Toggle sidebar">‹</button>
+
+  <%# ── Chat area ─────────────────────────────────────────────────────────── %>
+  <div class="wu-chat-area">
+
+    <%# Chat header %>
+    <div class="wu-chat-header">
+      <div class="d-flex align-items-center gap-3">
+        <div class="wu-chloe-avatar">🤖</div>
+        <div>
+          <div style="font-weight:700">Chloe 2.0</div>
+          <div style="font-size:.75rem;color:var(--ink-3)">
+            AI Interview Coach<% if @role %> · Practicing for: <strong style="color:var(--brand)"><%= @role.title %></strong><% end %>
+          </div>
+        </div>
+      </div>
+      <button class="btn-wu btn-wu-primary wu-new-session" type="button">Start new session ↗</button>
+    </div>
+
+    <%# Messages %>
+    <div class="wu-chat-messages" id="wuChatMessages">
+      <div class="wu-msg bot">
+        <div class="wu-chloe-avatar" style="width:32px;height:32px;font-size:.85rem;flex-shrink:0">🤖</div>
+        <div class="wu-msg-bubble">
+          Hi <%= current_user.name.split.first %>! I'm Chloe, your AI interview coach.<% if @role %> Today we'll focus on <strong><%= @role.title %></strong> — tailored to your matched role.<% else %> Let's get you ready for your next interview!<% end %> Ready to start?
+        </div>
+      </div>
+    </div>
+
+    <%# Input row %>
+    <div class="wu-chat-input-row">
+      <textarea class="wu-chat-input" id="wuChatInput" rows="1" placeholder="Type your answer…"></textarea>
+      <button class="wu-btn-send" id="wuSendBtn" aria-label="Send">➤</button>
+    </div>
+
+  </div>
+</div>

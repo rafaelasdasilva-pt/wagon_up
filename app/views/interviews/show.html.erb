@@ -1,0 +1,167 @@
+<% @interview ||= OpenStruct.new(id: 0, category: "General", overall_score: nil, answers: [], role: nil) %>
+<% @role ||= @interview.role %>
+<% @interviews ||= [] %>
+
+<% content_for :title, "Interview — #{@role&.title || "Practice"}" %>
+<% content_for :head do %>
+  <style>.wu-main { overflow: hidden; }</style>
+<% end %>
+
+<div class="wu-interview-layout">
+
+  <%# ── Sidebar ─────────────────────────────────────────────────────────────── %>
+  <div class="wu-sidebar" id="wuSidebar">
+    <div class="wu-sidebar-inner">
+
+      <% if @role %>
+        <%= link_to "+ New Session", new_role_interview_path(@role), class: "btn-wu btn-wu-primary btn-wu-full mb-3" %>
+      <% end %>
+
+      <div style="font-size:.72rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.6rem">
+        Past Sessions
+      </div>
+
+      <% if @interviews.any? %>
+        <% @interviews.each do |iv| %>
+          <%= link_to interview_path(iv), class: "wu-session-item text-decoration-none", style: "display:flex" do %>
+            <div style="flex:1">
+              <div style="font-size:.83rem;font-weight:600;color:var(--ink)"><%= iv.category.presence || "Interview" %></div>
+              <div style="font-size:.72rem;color:var(--ink-3)"><%= iv.created_at.strftime("%b %d, %Y") %></div>
+            </div>
+            <span class="wu-score-pill"><%= iv.overall_score ? "#{iv.overall_score}/10" : "—" %></span>
+          <% end %>
+        <% end %>
+      <% else %>
+        <p style="font-size:.8rem;color:var(--ink-3);padding:.5rem .75rem;line-height:1.6">
+          Your interview history will appear here. Ready to start? 💪
+        </p>
+      <% end %>
+
+      <div style="height:1px;background:var(--border);margin:1rem 0"></div>
+
+      <%# Session progress %>
+      <div style="font-size:.72rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem">
+        Session Progress
+      </div>
+
+      <% answered = @interview.answers.size rescue 0 %>
+      <% total = 5 %>
+
+      <div class="d-flex justify-content-between" style="font-size:.82rem;margin-bottom:.3rem">
+        <span>Questions</span>
+        <span style="font-weight:600"><%= answered %>/<%= total %></span>
+      </div>
+      <div class="wu-progress mb-3">
+        <div class="wu-progress-fill" data-width="<%= (answered.to_f / total * 100).round %>%" style="width:0%"></div>
+      </div>
+
+      <% avg = begin; @interview.answers.map(&:score).compact.sum.to_f / [@interview.answers.map(&:score).compact.size, 1].max; rescue; 0; end %>
+      <div class="d-flex justify-content-between" style="font-size:.82rem;margin-bottom:.3rem">
+        <span>Avg. Score</span>
+        <span style="font-weight:600"><%= avg > 0 ? "#{avg.round(1)}/10" : "—" %></span>
+      </div>
+      <div class="wu-progress mb-3">
+        <div class="wu-progress-fill" data-width="<%= (avg / 10 * 100).round %>%" style="width:0%"></div>
+      </div>
+
+      <% if answered >= total || @interview.overall_score %>
+        <div style="margin-bottom:1rem">
+          <%= link_to "See full results →", results_interview_path(@interview), class: "btn-wu btn-wu-primary btn-wu-full" %>
+        </div>
+      <% end %>
+
+      <div style="height:1px;background:var(--border);margin:1rem 0"></div>
+
+      <div style="font-size:.72rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem">
+        Chloe's Tips
+      </div>
+      <p style="font-size:.8rem;color:var(--ink-2);line-height:1.6;margin-bottom:.75rem">💡 Use the STAR method: Situation, Task, Action, Result.</p>
+      <p style="font-size:.8rem;color:var(--ink-2);line-height:1.6;margin-bottom:.75rem">💡 Your past career is a feature, not a bug — always link it back.</p>
+      <p style="font-size:.8rem;color:var(--ink-2);line-height:1.6;margin-bottom:.75rem">💡 Pause before answering. It shows confidence, not hesitation.</p>
+
+    </div>
+  </div>
+
+  <button class="wu-sidebar-toggle" id="wuSidebarToggle" aria-label="Toggle sidebar">‹</button>
+
+  <%# ── Chat area ───────────────────────────────────────────────────────────── %>
+  <div class="wu-chat-area">
+
+    <div class="wu-chat-header">
+      <div class="d-flex align-items-center gap-3">
+        <div class="wu-chloe-avatar">🤖</div>
+        <div>
+          <div style="font-weight:700">Chloe 2.0</div>
+          <div style="font-size:.75rem;color:var(--ink-3)">
+            AI Interview Coach<% if @role %> · <strong style="color:var(--brand)"><%= @role.title %></strong><% end %>
+          </div>
+        </div>
+      </div>
+      <% if @role %>
+        <%= link_to "See results →", results_interview_path(@interview), class: "btn-wu btn-wu-primary" %>
+      <% end %>
+    </div>
+
+    <%# Conversation history %>
+    <div class="wu-chat-messages" id="wuChatMessages">
+
+      <div class="wu-msg bot">
+        <div class="wu-chloe-avatar" style="width:32px;height:32px;font-size:.85rem;flex-shrink:0">🤖</div>
+        <div class="wu-msg-bubble">
+          Welcome back, <%= current_user.name.split.first %>!<% if @role %> We're practicing for <strong><%= @role.title %></strong>.<% end %>
+          <% if @interview.answers.any? %>
+            You've answered <%= @interview.answers.size %> question<%= @interview.answers.size == 1 ? "" : "s" %> so far. Let's keep going!
+          <% else %>
+            Let's get started!
+          <% end %>
+        </div>
+      </div>
+
+      <%# Replay existing Q&A %>
+      <% @interview.answers.each do |answer| %>
+        <% if answer.question.present? %>
+          <div class="wu-msg bot">
+            <div class="wu-chloe-avatar" style="width:32px;height:32px;font-size:.85rem;flex-shrink:0">🤖</div>
+            <div class="wu-msg-bubble"><%= answer.question %></div>
+          </div>
+        <% end %>
+        <% if answer.answer.present? %>
+          <div class="wu-msg user">
+            <div class="wu-msg-bubble"><%= answer.answer %></div>
+          </div>
+        <% end %>
+        <% if answer.feedback.present? %>
+          <div class="wu-msg bot">
+            <div class="wu-chloe-avatar" style="width:32px;height:32px;font-size:.85rem;flex-shrink:0">🤖</div>
+            <div class="wu-msg-bubble">
+              <% if answer.score %>
+                <span style="display:inline-block;background:var(--brand-pale);color:var(--brand);font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:100px;margin-bottom:.4rem">
+                  Score: <%= answer.score %>/10
+                </span><br>
+              <% end %>
+              <%= answer.feedback %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+    </div>
+
+    <%# Answer form — submits to answers#create %>
+    <% if @interview.overall_score.nil? %>
+      <div class="wu-chat-input-row">
+        <%= form_with url: interview_answers_path(@interview), local: false, html: { id: "answerForm" } do |f| %>
+          <%= f.text_area :answer, id: "wuChatInput", class: "wu-chat-input", rows: 1,
+              placeholder: "Type your answer…",
+              onkeydown: "if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();document.getElementById('answerForm').requestSubmit()}" %>
+          <%= f.submit "➤", id: "wuSendBtn", class: "wu-btn-send" %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="wu-chat-input-row" style="justify-content:center">
+        <%= link_to "See your full results →", results_interview_path(@interview), class: "btn-wu btn-wu-primary" %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

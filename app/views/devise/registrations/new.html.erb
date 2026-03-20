@@ -1,25 +1,50 @@
-<h2>Sign up</h2>
+<div class="wu-auth-bg">
+  <div class="wu-auth-card">
+    <%= link_to "Wagon Up", root_path, class: "wu-brand", style: "display:block;text-align:center;font-size:1.5rem;margin-bottom:1rem;text-decoration:none" %>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+    <h1 class="wu-auth-title">Create your account</h1>
+    <p class="wu-auth-sub">Start your journey to your first tech role — it's free.</p>
 
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
+    <% if resource.errors.any? %>
+      <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:1rem;margin-bottom:1rem;font-size:.83rem;color:#dc2626">
+        <% resource.errors.full_messages.each do |msg| %>
+          <div>• <%= msg %></div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "wu-auth-form" }) do |f| %>
+      <div class="mb-3">
+        <%= f.label :name, "Full Name" %>
+        <%= f.text_field :name, placeholder: "Clara Lima", autocomplete: "name", autofocus: true %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :email, "Email address" %>
+        <%= f.email_field :email, placeholder: "clara@email.com", autocomplete: "email" %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :password, "Password" %>
+        <%= f.password_field :password, placeholder: "••••••••", autocomplete: "new-password" %>
+        <% if @minimum_password_length %>
+          <small style="font-size:.75rem;color:var(--ink-3);display:block;margin-top:.3rem">
+            Minimum <%= @minimum_password_length %> characters
+          </small>
+        <% end %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :password_confirmation, "Confirm password" %>
+        <%= f.password_field :password_confirmation, placeholder: "••••••••", autocomplete: "new-password" %>
+      </div>
+
+      <%= f.submit "Create my account →" %>
+    <% end %>
+
+    <div class="wu-auth-switch">
+      Already have an account? <%= link_to "Sign in", new_user_session_path %>
+    </div>
+    <div class="wu-auth-reassure">No credit card required. Free forever.</div>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

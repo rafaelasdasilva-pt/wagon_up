@@ -1,14 +1,105 @@
-<%= form_with model: @analysis, url: analyses_path, multipart: true do |f| %>
-  <% if @analysis.errors.any? %>
-    <div class="alert alert-danger">
-      <%= @analysis.errors.full_messages.first %>
+<% content_for :title, "Set Up Your Profile" %>
+
+<div class="setup-page">
+  <div class="setup-card">
+
+    <div class="progress-steps" id="setupProgress">
+      <div class="ps-item active" id="step1-indicator">
+        <div class="ps-circle">1</div>
+        <span>Your Background</span>
+      </div>
+      <div class="ps-line" id="ps-line-1"></div>
+      <div class="ps-item" id="step2-indicator">
+        <div class="ps-circle">2</div>
+        <span>CV Upload</span>
+      </div>
     </div>
-  <% end %>
 
-  <div class="mb-3">
-    <%= f.label :file, "CV em PDF" %>
-    <%= f.file_field :file, accept: "application/pdf", class: "form-control" %>
+    <!-- STEP 1 -->
+    <div id="setup-step1">
+      <h2 style="font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.3rem">Set Up Your Profile</h2>
+      <p class="text-brand fw-600 mb-4" style="font-size:.9rem">Tell us about your skills — Chloe will build your analysis from here.</p>
+
+      <div class="mb-4">
+        <div class="section-label">Technical Skills</div>
+        <p style="font-size:.82rem;color:var(--ink-3);margin-bottom:.75rem">Select all that apply — these feed into your AI analysis.</p>
+        <div id="hardSkills">
+          <span class="skill-tag active" onclick="toggleTag(this)">Ruby</span>
+          <span class="skill-tag" onclick="toggleTag(this)">JavaScript</span>
+          <span class="skill-tag" onclick="toggleTag(this)">SQL</span>
+          <span class="skill-tag active" onclick="toggleTag(this)">React</span>
+          <span class="skill-tag" onclick="toggleTag(this)">Python</span>
+          <span class="skill-tag" onclick="toggleTag(this)">Node.js</span>
+          <span class="skill-tag" onclick="toggleTag(this)">TypeScript</span>
+          <span class="skill-tag" onclick="toggleTag(this)">HTML/CSS</span>
+          <span class="skill-tag" onclick="toggleTag(this)">Rails</span>
+          <span class="skill-tag" onclick="toggleTag(this)">Next.js</span>
+          <span class="skill-tag" onclick="toggleTag(this)">Docker</span>
+          <span class="skill-tag" onclick="toggleTag(this)">AWS</span>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label-wu" style="display:block;margin-bottom:.4rem">Previous Role / Industry</label>
+        <input class="form-control-wu" style="width:100%" type="text"
+               placeholder="e.g. Marketing Manager at L'Oréal, Teacher, Financial Analyst…"
+               name="previous_role" id="previousRole">
+        <p style="font-size:.75rem;color:var(--ink-3);margin-top:.4rem">This helps Chloe identify your transferable strengths.</p>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-12 col-sm-6">
+          <label class="form-label-wu" style="display:block;margin-bottom:.4rem">Full Name</label>
+          <input class="form-control-wu" style="width:100%;background:#f9f9f9" type="text"
+                 value="<%= current_user.name %>" readonly>
+        </div>
+        <div class="col-12 col-sm-6">
+          <label class="form-label-wu" style="display:block;margin-bottom:.4rem">Email</label>
+          <input class="form-control-wu" style="width:100%;background:#f9f9f9" type="email"
+                 value="<%= current_user.email %>" readonly>
+        </div>
+        <div class="col-12 col-sm-6">
+          <label class="form-label-wu" style="display:block;margin-bottom:.4rem">LinkedIn URL <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+          <input class="form-control-wu" style="width:100%" type="url"
+                 placeholder="https://linkedin.com/in/yourprofile" name="linkedin_url">
+        </div>
+        <div class="col-12 col-sm-6">
+          <label class="form-label-wu" style="display:block;margin-bottom:.4rem">GitHub Portfolio <span style="font-weight:400;color:var(--ink-3)">(optional)</span></label>
+          <input class="form-control-wu" style="width:100%" type="url"
+                 placeholder="https://github.com/yourusername" name="github_url">
+        </div>
+      </div>
+
+      <button class="btn-primary-full" onclick="goSetupStep2()">Continue to CV Upload →</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="setup-step2" style="display:none">
+      <h2 style="font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.3rem">Set Up Your Profile</h2>
+      <p class="text-brand fw-600 mb-4" style="font-size:.9rem">Upload your CV so Chloe can extract the full picture.</p>
+
+      <%= form_with model: @analysis, url: analyses_path, multipart: true do |f| %>
+        <% if @analysis.errors.any? %>
+          <div class="alert alert-danger"><%= @analysis.errors.full_messages.first %></div>
+        <% end %>
+
+        <div class="mb-4">
+          <div class="section-label">Upload Your CV</div>
+          <div class="drop-zone" onclick="document.getElementById('cvInput').click()">
+            <div class="drop-zone-icon">⬆️</div>
+            <div style="font-size:.9rem;font-weight:600;color:var(--ink-2);margin-bottom:.25rem">Click to upload or drag PDF</div>
+            <div style="font-size:.78rem;color:var(--ink-3)">PDF only · up to 10MB</div>
+            <%= f.file_field :file, id: "cvInput", accept: "application/pdf", class: "d-none", onchange: "handleCVUpload(this)" %>
+          </div>
+          <div id="cvFileName" style="font-size:.8rem;color:var(--brand);margin-top:.5rem;display:none"></div>
+        </div>
+
+        <div class="d-flex gap-3">
+          <button type="button" class="btn-outline-brand" onclick="goSetupStep1()">← Back</button>
+          <%= f.submit "Analyse my profile →", class: "btn-primary-full flex-grow-1" %>
+        </div>
+      <% end %>
+    </div>
+
   </div>
-
-  <%= f.submit "Enviar CV", class: "btn btn-primary" %>
-<% end %>
+</div>

@@ -1,0 +1,106 @@
+<% @role ||= OpenStruct.new(
+  title: "Junior Web Developer",
+  justification: "Your combination of full-stack skills and previous career experience makes you a strong candidate for web development roles.",
+  position: 1,
+  market_fit: {}
+) %>
+
+<div style="background:var(--bg);padding:3rem 1rem;min-height:calc(100vh - 68px)">
+  <div style="max-width:760px;margin:0 auto">
+
+    <%# Back link %>
+    <%# TODO: substituir analyses_path por profile_path quando existir %>
+    <%= link_to "← Back to profile", analyses_path,
+        style: "font-size:.83rem;color:var(--ink-3);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;margin-bottom:1.5rem" %>
+
+    <%# Title block %>
+    <div class="sr">
+      <span style="font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--brand)">
+        Career path
+      </span>
+      <h1 style="font-size:2.2rem;font-weight:800;letter-spacing:-.03em;color:var(--ink);margin-top:.5rem;margin-bottom:.75rem">
+        <%= @role.title %>
+      </h1>
+      <p style="font-size:1rem;color:var(--ink-3);line-height:1.75;margin-bottom:2rem">
+        <%= @role.justification %>
+      </p>
+    </div>
+
+    <%# Market fit progress %>
+    <div class="wu-card mb-4 sr d1">
+      <div style="font-size:.78rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem">
+        Market Fit
+      </div>
+      <% match_pct = @role.position == 1 ? 87 : @role.position == 2 ? 82 : 79 %>
+      <div class="wu-progress mb-2">
+        <div class="wu-progress-fill" data-width="<%= match_pct %>%" style="width:0%"></div>
+      </div>
+      <div style="font-size:.83rem;color:var(--ink-3)">
+        <%= match_pct %>% compatibility with your profile
+      </div>
+    </div>
+
+    <%# Why this fits %>
+    <div class="wu-card mb-4 sr d2">
+      <div style="font-size:.78rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem">
+        Why this fits you
+      </div>
+      <p style="font-size:.88rem;color:var(--ink-2);line-height:1.75;margin-bottom:1rem">
+        <%= @role.justification %>
+      </p>
+      <% breakdown = (@role.market_fit.is_a?(Hash) && @role.market_fit["breakdown"]) ?
+          @role.market_fit["breakdown"] :
+          [
+            "Your past experience → transferable domain knowledge",
+            "Technical skills → ready to contribute from day one",
+            "Communication background → cross-functional asset"
+          ] %>
+      <% breakdown.each do |item| %>
+        <div class="wu-match-item">
+          <span style="color:var(--brand);flex-shrink:0">✦</span>
+          <span style="font-size:.87rem;color:var(--ink-2)"><%= item %></span>
+        </div>
+      <% end %>
+    </div>
+
+    <%# AI Resume Prompt %>
+    <div class="wu-prompt-box mb-4 sr d3">
+      <div style="font-size:.72rem;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem">
+        AI Resume Prompt
+      </div>
+      <p style="font-size:.8rem;color:var(--ink-3);margin-bottom:.75rem">
+        Use this on ChatGPT, Claude or Huntr to generate your optimised resume →
+      </p>
+      <div class="wu-prompt-text" id="promptText">Act as an expert tech recruiter and resume writer. I am a Le Wagon bootcamp graduate transitioning into a <%= @role.title %> role.
+
+My background: I have completed an intensive full-stack web development bootcamp and have previous professional experience in a different field. My technical skills include Ruby on Rails, JavaScript, React, SQL, HTML/CSS, Git, and REST APIs. I also bring transferable skills such as communication, project management, and cross-functional collaboration from my previous career.
+
+Please write me:
+1. A compelling, ATS-optimised resume summary (3-4 sentences) for a <%= @role.title %> position
+2. A cover letter opening paragraph that turns my career transition into a strength
+3. 5 bullet points highlighting my most relevant experience and achievements
+
+Key ATS keywords to include: <%= @role.title %>, full-stack development, agile, REST API, PostgreSQL, Git, CI/CD, TDD, collaboration, problem-solving.
+
+Tone: confident, concise, and focused on value delivered — not just tasks completed.</div>
+      <button class="btn-wu btn-wu-primary mt-3" id="copyPromptBtn">Copy prompt</button>
+    </div>
+
+    <%# Start interview CTA %>
+    <div class="wu-card mb-4 sr d3" style="text-align:center;padding:2rem">
+      <div style="font-size:1.5rem;margin-bottom:.75rem">💬</div>
+      <h5 class="fw-800 mb-2">Ready to practice?</h5>
+      <p style="font-size:.88rem;color:var(--ink-3);margin-bottom:1.25rem">
+        Start a mock interview with Chloe, tailored for <%= @role.title %> roles.
+      </p>
+      <%# TODO: substituir "#" por new_role_interview_path(@role) %>
+      <%= link_to "Start interview →", "#", class: "btn-wu btn-wu-primary" %>
+    </div>
+
+    <%# Back link bottom %>
+    <%# TODO: substituir analyses_path por profile_path quando existir %>
+    <%= link_to "← Back to profile", analyses_path,
+        style: "font-size:.83rem;color:var(--ink-3);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem" %>
+
+  </div>
+</div>
