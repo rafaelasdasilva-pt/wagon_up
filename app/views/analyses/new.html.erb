@@ -87,9 +87,9 @@
           <div class="section-label">Upload Your CV</div>
           <div class="drop-zone" onclick="document.getElementById('cvInput').click()">
             <div class="drop-zone-icon">⬆️</div>
-            <div style="font-size:.9rem;font-weight:600;color:var(--ink-2);margin-bottom:.25rem">Click to upload or drag PDF</div>
-            <div style="font-size:.78rem;color:var(--ink-3)">PDF only · up to 10MB</div>
-            <%= f.file_field :file, id: "cvInput", accept: "application/pdf", class: "d-none", onchange: "handleCVUpload(this)" %>
+            <div style="font-size:.9rem;font-weight:600;color:var(--ink-2);margin-bottom:.25rem">Click to upload or drag your CV</div>
+            <div style="font-size:.78rem;color:var(--ink-3)">PDF ou Word (.docx) · até 10MB</div>
+            <%= f.file_field :file, id: "cvInput", accept: "application/pdf,.pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx", class: "d-none", onchange: "handleCVUpload(this)" %>
           </div>
           <div id="cvFileName" style="font-size:.8rem;color:var(--brand);margin-top:.5rem;display:none"></div>
         </div>

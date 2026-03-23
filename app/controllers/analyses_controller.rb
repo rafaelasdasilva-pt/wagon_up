@@ -16,7 +16,7 @@ class AnalysesController < ApplicationController
 
   # GET /analyses/:id
   def show
-    @analysis = Analysis.find(params[:id])
+    @analysis = current_user.analyses.find(params[:id])
   end
 
   # POST /analyses
@@ -32,33 +32,15 @@ class AnalysesController < ApplicationController
       @analysis.file.attach(params[:analysis][:file])
 
       begin
-        @analysis.cv_text = PdfParser.extract(@analysis.file)
-        @analysis.save
-
-        # Chamar ClaudeAnalyser
-        result = ClaudeAnalyser.new(@analysis.cv_text).call
-
-        @analysis.update!(
-          summary: result["summary"],
-          skills: result["skills"],
-          raw_json: result
-        )
-
-        result["roles"].each do |role_data|
-          @analysis.roles.create!(
-            title: role_data["title"],
-            justification: role_data["justification"],
-            market_fit: role_data["market_fit"],
-            position: role_data["position"]
-          )
-        end
-
+        @analysis.update!(cv_text: PdfParser.extract(@analysis.file))
       rescue PdfParserError => e
         @analysis.errors.add(:file, e.message)
         render :new, status: :unprocessable_entity and return
       end
 
-      redirect_to analysis_path(@analysis), notice: "CV enviado! A IA está a analisar o teu perfil."
+      AnalysisJob.perform_later(@analysis.id)
+
+      redirect_to analysis_path(@analysis), notice: "CV enviado! A Chloe está a analisar o teu perfil..."
     else
       render :new, status: :unprocessable_entity
     end

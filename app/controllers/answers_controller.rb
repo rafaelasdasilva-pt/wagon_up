@@ -6,7 +6,7 @@ class AnswersController < ApplicationController
   # TODO: chamar ChloeInterviewer.evaluate(@answer) para avaliar a resposta via API Anthropic
   #       e preencher automaticamente :feedback e :score
   def create
-    @interview = Interview.find(params[:interview_id])
+    @interview = Interview.joins(role: :analysis).where(analyses: { user_id: current_user.id }, id: params[:interview_id]).first!
     @answer = Answer.new(answer_params)
     @answer.interview = @interview
 

@@ -1,130 +1,194 @@
 <% content_for :title, "#{current_user.name} — Profile" %>
 
-<div class="profile-hero">
-  <div class="container position-relative" style="z-index:1">
-    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-      <div>
-        <div style="font-size:.78rem;color:rgba(255,255,255,.45);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem">Your AI Analysis</div>
-        <h1 style="font-size:2.2rem;font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:.4rem"><%= current_user.name %></h1>
-        <p style="color:rgba(255,255,255,.6);font-size:.95rem"><%= @analysis.summary.present? ? @analysis.summary.split(".").first + "." : "Full Stack Developer & Tech Problem Solver" %></p>
-        <%# TODO: substituir new_interview_path por new_role_interview_path(role) quando o backend estiver pronto %>
-        <% top_role = @analysis.roles.order(:position).first %>
-        <% if top_role %>
-          <%= link_to "Start interview prep →", new_role_interview_path(top_role), class: "btn-primary mt-3 d-inline-block" %>
-        <% else %>
-          <span class="btn-primary mt-3 d-inline-block" style="opacity:.5;cursor:not-allowed">Start interview prep →</span>
-        <% end %>
-      </div>
-      <div class="match-badge">
-        <span class="match-pct">92%</span>
-        <span class="match-lbl">Overall Market Fit</span>
-        <span class="match-sub">↗ Top 15% of profiles</span>
-      </div>
-    </div>
-  </div>
-</div>
+<% if @analysis.status == "processing" %>
+  <%# Polling activo enquanto o job ainda corre %>
+  <div data-controller="polling"></div>
+<% end %>
 
-<div class="container py-7">
+<turbo-frame id="analysis-content">
 
-  <div class="chloe-analysis mb-4 sr">
-    <div style="font-size:1.2rem;flex-shrink:0">✦</div>
-    <div>
-      <div style="font-size:.78rem;font-weight:700;color:var(--brand);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.3rem">Chloe's Analysis</div>
-      <p style="font-size:.88rem;color:var(--ink-2);line-height:1.7;margin:0"><%= @analysis.summary.present? ? @analysis.summary : "Chloe is analysing your profile. Check back shortly." %></p>
-    </div>
-  </div>
+<% if @analysis.status == "processing" %>
 
-  <div class="row g-4">
-    <div class="col-12 col-lg-5 sr">
-      <div class="feat-card h-100">
-        <div style="font-size:1rem;font-weight:700;margin-bottom:1.5rem">Skill Alignment</div>
-
-        <div style="font-size:.78rem;font-weight:600;color:var(--brand);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem">Hard Skills</div>
-        <svg viewBox="-120 -120 240 240" style="width:100%;max-width:240px;display:block;margin:0 auto 1.5rem">
-          <defs><style>.rl{fill:none;stroke:#E4E4E7;stroke-width:1}.ra{fill:rgba(108,62,244,.15);stroke:#6C3EF4;stroke-width:1.5}.rl2{fill:none;stroke:#E4E4E7;stroke-width:.5}</style></defs>
-          <polygon points="0,-80 69.3,-40 69.3,40 0,80 -69.3,40 -69.3,-40" class="rl"/>
-          <polygon points="0,-60 51.96,-30 51.96,30 0,60 -51.96,30 -51.96,-30" class="rl"/>
-          <polygon points="0,-40 34.64,-20 34.64,20 0,40 -34.64,20 -34.64,-20" class="rl"/>
-          <line x1="0" y1="-80" x2="0" y2="80" class="rl2"/>
-          <line x1="-69.3" y1="-40" x2="69.3" y2="40" class="rl2"/>
-          <line x1="-69.3" y1="40" x2="69.3" y2="-40" class="rl2"/>
-          <polygon points="0,-72 62,-34 49,28 0,76 -41.6,24 -56.25,-37.5" class="ra"/>
-          <text x="0" y="-90" text-anchor="middle" font-size="9" fill="#71717A">Ruby</text>
-          <text x="80" y="-46" text-anchor="start" font-size="9" fill="#71717A">JS</text>
-          <text x="80" y="46" text-anchor="start" font-size="9" fill="#71717A">SQL</text>
-          <text x="0" y="96" text-anchor="middle" font-size="9" fill="#71717A">React</text>
-          <text x="-80" y="46" text-anchor="end" font-size="9" fill="#71717A">Node.js</text>
-          <text x="-80" y="-46" text-anchor="end" font-size="9" fill="#71717A">TypeScript</text>
-        </svg>
-
-        <div style="font-size:.78rem;font-weight:600;color:var(--brand);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem">Soft Skills</div>
-        <svg viewBox="-120 -120 240 240" style="width:100%;max-width:240px;display:block;margin:0 auto 1.5rem">
-          <polygon points="0,-80 69.3,-40 69.3,40 0,80 -69.3,40 -69.3,-40" class="rl"/>
-          <polygon points="0,-60 51.96,-30 51.96,30 0,60 -51.96,30 -51.96,-30" class="rl"/>
-          <polygon points="0,-40 34.64,-20 34.64,20 0,40 -34.64,20 -34.64,-20" class="rl"/>
-          <line x1="0" y1="-80" x2="0" y2="80" class="rl2"/>
-          <line x1="-69.3" y1="-40" x2="69.3" y2="40" class="rl2"/>
-          <line x1="-69.3" y1="40" x2="69.3" y2="-40" class="rl2"/>
-          <polygon points="0,-76 58,-30 55,32 0,64 -52,28 -60,-36" class="ra"/>
-          <text x="0" y="-90" text-anchor="middle" font-size="9" fill="#71717A">Communication</text>
-          <text x="80" y="-46" text-anchor="start" font-size="9" fill="#71717A">Leadership</text>
-          <text x="80" y="46" text-anchor="start" font-size="9" fill="#71717A">Problem Solving</text>
-          <text x="0" y="96" text-anchor="middle" font-size="9" fill="#71717A">Adaptability</text>
-          <text x="-80" y="46" text-anchor="end" font-size="9" fill="#71717A">Empathy</text>
-          <text x="-80" y="-46" text-anchor="end" font-size="9" fill="#71717A">Creativity</text>
-        </svg>
-
-        <div style="font-size:.78rem;font-weight:600;color:var(--ink-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem">ATS Keywords</div>
+  <div class="profile-hero">
+    <div class="container position-relative" style="z-index:1">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
         <div>
-          <% skills_list = begin; JSON.parse(@analysis.skills); rescue; @analysis.skills.to_s.split(/,\s*/); end %>
-          <% skills_list = %w[Full\ Stack REST\ API Agile MVC Git CI/CD PostgreSQL TDD] if skills_list.blank? %>
-          <% skills_list.each do |skill| %>
-            <span class="ats-tag"><%= skill %></span>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.45);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem">Your AI Analysis</div>
+          <h1 style="font-size:2.2rem;font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:.4rem"><%= current_user.name %></h1>
+          <p style="color:rgba(255,255,255,.6);font-size:.95rem">A Chloe está a analisar o teu CV...</p>
+        </div>
+        <div class="match-badge" style="opacity:.4">
+          <span class="match-pct">--</span>
+          <span class="match-lbl">A calcular</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container py-7 text-center">
+    <div style="max-width:480px;margin:0 auto;padding:4rem 0">
+      <div style="font-size:3rem;margin-bottom:1.5rem">✦</div>
+      <h2 style="font-size:1.4rem;font-weight:700;margin-bottom:.75rem">A Chloe está a trabalhar</h2>
+      <p style="color:var(--ink-3);font-size:.9rem;line-height:1.7;margin-bottom:2rem">
+        Estamos a analisar o teu CV com IA. Isto demora cerca de 1–2 minutos.<br>
+        A página actualiza automaticamente quando estiver pronto.
+      </p>
+      <div style="display:flex;justify-content:center;gap:.5rem">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--brand);animation:pulse 1.2s ease-in-out infinite"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--brand);animation:pulse 1.2s ease-in-out .4s infinite"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--brand);animation:pulse 1.2s ease-in-out .8s infinite"></span>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes pulse {
+      0%, 100% { opacity: .2; transform: scale(.8); }
+      50%       { opacity: 1;  transform: scale(1.2); }
+    }
+  </style>
+
+<% elsif @analysis.status == "failed" %>
+
+  <div class="container py-7 text-center">
+    <div style="max-width:480px;margin:4rem auto">
+      <div style="font-size:3rem;margin-bottom:1rem">⚠️</div>
+      <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:.5rem">Algo correu mal</h2>
+      <p style="color:var(--ink-3);font-size:.9rem">Ocorreu um erro ao processar o teu CV. Tenta de novo.</p>
+      <%= link_to "Submeter outro CV", new_analysis_path, class: "btn-primary mt-3 d-inline-block" %>
+    </div>
+  </div>
+
+<% else %>
+
+  <div class="profile-hero">
+    <div class="container position-relative" style="z-index:1">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.45);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem">Your AI Analysis</div>
+          <h1 style="font-size:2.2rem;font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:.4rem"><%= current_user.name %></h1>
+          <p style="color:rgba(255,255,255,.6);font-size:.95rem"><%= @analysis.summary.present? ? @analysis.summary.split(".").first + "." : "Full Stack Developer & Tech Problem Solver" %></p>
+          <% top_role = @analysis.roles.order(:position).first %>
+          <% if top_role %>
+            <%= link_to "Start interview prep →", new_role_interview_path(top_role), class: "btn-primary mt-3 d-inline-block" %>
+          <% else %>
+            <span class="btn-primary mt-3 d-inline-block" style="opacity:.5;cursor:not-allowed">Start interview prep →</span>
+          <% end %>
+        </div>
+        <div class="match-badge">
+          <span class="match-pct">92%</span>
+          <span class="match-lbl">Overall Market Fit</span>
+          <span class="match-sub">↗ Top 15% of profiles</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container py-7">
+
+    <div class="chloe-analysis mb-4 sr">
+      <div style="font-size:1.2rem;flex-shrink:0">✦</div>
+      <div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--brand);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.3rem">Chloe's Analysis</div>
+        <p style="font-size:.88rem;color:var(--ink-2);line-height:1.7;margin:0"><%= @analysis.summary.present? ? @analysis.summary : "Chloe is analysing your profile. Check back shortly." %></p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-lg-5 sr">
+        <div class="feat-card h-100">
+          <div style="font-size:1rem;font-weight:700;margin-bottom:1.5rem">Skill Alignment</div>
+
+          <div style="font-size:.78rem;font-weight:600;color:var(--brand);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem">Hard Skills</div>
+          <svg viewBox="-120 -120 240 240" style="width:100%;max-width:240px;display:block;margin:0 auto 1.5rem">
+            <defs><style>.rl{fill:none;stroke:#E4E4E7;stroke-width:1}.ra{fill:rgba(108,62,244,.15);stroke:#6C3EF4;stroke-width:1.5}.rl2{fill:none;stroke:#E4E4E7;stroke-width:.5}</style></defs>
+            <polygon points="0,-80 69.3,-40 69.3,40 0,80 -69.3,40 -69.3,-40" class="rl"/>
+            <polygon points="0,-60 51.96,-30 51.96,30 0,60 -51.96,30 -51.96,-30" class="rl"/>
+            <polygon points="0,-40 34.64,-20 34.64,20 0,40 -34.64,20 -34.64,-20" class="rl"/>
+            <line x1="0" y1="-80" x2="0" y2="80" class="rl2"/>
+            <line x1="-69.3" y1="-40" x2="69.3" y2="40" class="rl2"/>
+            <line x1="-69.3" y1="40" x2="69.3" y2="-40" class="rl2"/>
+            <polygon points="0,-72 62,-34 49,28 0,76 -41.6,24 -56.25,-37.5" class="ra"/>
+            <text x="0" y="-90" text-anchor="middle" font-size="9" fill="#71717A">Ruby</text>
+            <text x="80" y="-46" text-anchor="start" font-size="9" fill="#71717A">JS</text>
+            <text x="80" y="46" text-anchor="start" font-size="9" fill="#71717A">SQL</text>
+            <text x="0" y="96" text-anchor="middle" font-size="9" fill="#71717A">React</text>
+            <text x="-80" y="46" text-anchor="end" font-size="9" fill="#71717A">Node.js</text>
+            <text x="-80" y="-46" text-anchor="end" font-size="9" fill="#71717A">TypeScript</text>
+          </svg>
+
+          <div style="font-size:.78rem;font-weight:600;color:var(--brand);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem">Soft Skills</div>
+          <svg viewBox="-120 -120 240 240" style="width:100%;max-width:240px;display:block;margin:0 auto 1.5rem">
+            <polygon points="0,-80 69.3,-40 69.3,40 0,80 -69.3,40 -69.3,-40" class="rl"/>
+            <polygon points="0,-60 51.96,-30 51.96,30 0,60 -51.96,30 -51.96,-30" class="rl"/>
+            <polygon points="0,-40 34.64,-20 34.64,20 0,40 -34.64,20 -34.64,-20" class="rl"/>
+            <line x1="0" y1="-80" x2="0" y2="80" class="rl2"/>
+            <line x1="-69.3" y1="-40" x2="69.3" y2="40" class="rl2"/>
+            <line x1="-69.3" y1="40" x2="69.3" y2="-40" class="rl2"/>
+            <polygon points="0,-76 58,-30 55,32 0,64 -52,28 -60,-36" class="ra"/>
+            <text x="0" y="-90" text-anchor="middle" font-size="9" fill="#71717A">Communication</text>
+            <text x="80" y="-46" text-anchor="start" font-size="9" fill="#71717A">Leadership</text>
+            <text x="80" y="46" text-anchor="start" font-size="9" fill="#71717A">Problem Solving</text>
+            <text x="0" y="96" text-anchor="middle" font-size="9" fill="#71717A">Adaptability</text>
+            <text x="-80" y="46" text-anchor="end" font-size="9" fill="#71717A">Empathy</text>
+            <text x="-80" y="-46" text-anchor="end" font-size="9" fill="#71717A">Creativity</text>
+          </svg>
+
+          <div style="font-size:.78rem;font-weight:600;color:var(--ink-2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem">ATS Keywords</div>
+          <div>
+            <% skills_list = begin; JSON.parse(@analysis.skills); rescue; @analysis.skills.to_s.split(/,\s*/); end %>
+            <% skills_list = %w[Full\ Stack REST\ API Agile MVC Git CI/CD PostgreSQL TDD] if skills_list.blank? %>
+            <% skills_list.each do |skill| %>
+              <span class="ats-tag"><%= skill %></span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-7 sr d1">
+        <div style="font-size:1rem;font-weight:700;margin-bottom:1rem">Career Suggestions</div>
+        <div class="d-flex flex-column gap-3">
+          <% if @analysis.roles.any? %>
+            <% @analysis.roles.order(:position).limit(3).each_with_index do |role, i| %>
+              <% pills = ["", "style='background:#dbeafe;color:#1e40af'", "style='background:#fef9c3;color:#854d0e'"] %>
+              <% pcts = ["87%", "82%", "79%"] %>
+              <div class="career-card" onclick="window.location='<%= role_path(role) %>'">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <div>
+                    <div style="font-size:1rem;font-weight:700;color:var(--ink)"><%= role.title %></div>
+                    <div style="font-size:.82rem;color:var(--ink-3);margin-top:2px"><%= role.justification&.truncate(80) %></div>
+                  </div>
+                  <span class="match-pill" <%= pills[i].html_safe %>><%= pcts[i] %> match</span>
+                </div>
+                <%= link_to "See details →", role_path(role), class: "btn-outline-brand btn-sm mt-2", style: "font-size:.78rem" %>
+              </div>
+            <% end %>
+          <% else %>
+            <% [["Junior Web Developer","87%",""],["Product Engineer","82%","style='background:#dbeafe;color:#1e40af'"],["Technical Project Manager","79%","style='background:#fef9c3;color:#854d0e'"]].each do |title, pct, pill| %>
+              <div class="career-card" style="opacity:.7">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                  <div><div style="font-size:1rem;font-weight:700;color:var(--ink)"><%= title %></div></div>
+                  <span class="match-pill" <%= pill.html_safe %>><%= pct %> match</span>
+                </div>
+                <button class="btn-outline-brand btn-sm mt-2" style="font-size:.78rem;opacity:.5" disabled>See details →</button>
+              </div>
+            <% end %>
           <% end %>
         </div>
       </div>
     </div>
 
-    <div class="col-12 col-lg-7 sr d1">
-      <div style="font-size:1rem;font-weight:700;margin-bottom:1rem">Career Suggestions</div>
-      <div class="d-flex flex-column gap-3">
-        <% if @analysis.roles.any? %>
-          <% @analysis.roles.order(:position).limit(3).each_with_index do |role, i| %>
-            <% pills = ["", "style='background:#dbeafe;color:#1e40af'", "style='background:#fef9c3;color:#854d0e'"] %>
-            <% pcts = ["87%", "82%", "79%"] %>
-            <div class="career-card" onclick="window.location='<%= role_path(role) %>'">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <div>
-                  <div style="font-size:1rem;font-weight:700;color:var(--ink)"><%= role.title %></div>
-                  <div style="font-size:.82rem;color:var(--ink-3);margin-top:2px"><%= role.justification&.truncate(80) %></div>
-                </div>
-                <span class="match-pill" <%= pills[i].html_safe %>><%= pcts[i] %> match</span>
-              </div>
-              <%= link_to "See details →", role_path(role), class: "btn-outline-brand btn-sm mt-2", style: "font-size:.78rem" %>
-            </div>
-          <% end %>
-        <% else %>
-          <% [["Junior Web Developer","87%",""],["Product Engineer","82%","style='background:#dbeafe;color:#1e40af'"],["Technical Project Manager","79%","style='background:#fef9c3;color:#854d0e'"]].each do |title, pct, pill| %>
-            <div class="career-card" style="opacity:.7">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <div><div style="font-size:1rem;font-weight:700;color:var(--ink)"><%= title %></div></div>
-                <span class="match-pill" <%= pill.html_safe %>><%= pct %> match</span>
-              </div>
-              <button class="btn-outline-brand btn-sm mt-2" style="font-size:.78rem;opacity:.5" disabled>See details →</button>
-            </div>
-          <% end %>
-        <% end %>
+    <div class="mt-4 sr d2">
+      <div style="background:var(--brand-pale);border:1.5px solid var(--brand-dim);border-radius:var(--radius);padding:2rem">
+        <div style="font-size:1rem;font-weight:700;margin-bottom:.3rem">My Story</div>
+        <p style="font-size:.82rem;color:var(--ink-3);margin-bottom:1rem">Tell your career transition story — it helps Chloe personalise your coaching.</p>
+        <textarea class="bio-area" placeholder="Describe your journey — where you come from, what drove you to tech, and what makes you unique." style="min-height:120px;width:100%"></textarea>
+        <button class="btn-primary mt-3">Save my story</button>
       </div>
     </div>
+
   </div>
 
-  <div class="mt-4 sr d2">
-    <div style="background:var(--brand-pale);border:1.5px solid var(--brand-dim);border-radius:var(--radius);padding:2rem">
-      <div style="font-size:1rem;font-weight:700;margin-bottom:.3rem">My Story</div>
-      <p style="font-size:.82rem;color:var(--ink-3);margin-bottom:1rem">Tell your career transition story — it helps Chloe personalise your coaching.</p>
-      <textarea class="bio-area" placeholder="Describe your journey — where you come from, what drove you to tech, and what makes you unique." style="min-height:120px;width:100%"></textarea>
-      <button class="btn-primary mt-3">Save my story</button>
-    </div>
-  </div>
+<% end %>
 
-</div>
+</turbo-frame>

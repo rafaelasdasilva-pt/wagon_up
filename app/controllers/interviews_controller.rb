@@ -3,7 +3,7 @@ class InterviewsController < ApplicationController
   # Mostra o formulário para iniciar uma entrevista para um role específico
   # role_id vem da URL (nested route) — sabemos para qual role é a entrevista
   def new
-    @role = Role.find(params[:role_id])
+    @role = current_user_role(params[:role_id])
     @interview = Interview.new
   end
 
@@ -13,7 +13,7 @@ class InterviewsController < ApplicationController
   # Após criar, redireciona para a entrevista em curso (show)
   # TODO: chamar ChloeInterviewer.call(@interview) para gerar as perguntas via API Anthropic
   def create
-    @role = Role.find(params[:role_id])
+    @role = current_user_role(params[:role_id])
     @interview = Interview.new(interview_params)
     @interview.role = @role
 
@@ -29,7 +29,7 @@ class InterviewsController < ApplicationController
   # Mostra as perguntas e o formulário para submeter respostas
   # @answers ordenadas por created_at — mostra a conversa em ordem cronológica
   def show
-    @interview = Interview.find(params[:id])
+    @interview = current_user_interview(params[:id])
     @answers = @interview.answers.order(:created_at)
     @role = @interview.role
   end
@@ -39,7 +39,7 @@ class InterviewsController < ApplicationController
   # Chamado quando a ChloeInterviewer termina de avaliar todas as respostas
   # Redireciona para a página de resultados
   def update
-    @interview = Interview.find(params[:id])
+    @interview = current_user_interview(params[:id])
 
     if @interview.update(interview_params)
       redirect_to results_interview_path(@interview)
@@ -52,7 +52,7 @@ class InterviewsController < ApplicationController
   # Página final da entrevista com score global e feedback detalhado
   # Mostra todas as respostas com a avaliação da IA para cada uma
   def results
-    @interview = Interview.find(params[:id])
+    @interview = current_user_interview(params[:id])
     @answers = @interview.answers.order(:created_at)
     @role = @interview.role
   end
@@ -65,5 +65,13 @@ class InterviewsController < ApplicationController
   # :feedback_summary — resumo do feedback da IA sobre a entrevista completa
   def interview_params
     params.require(:interview).permit(:category, :overall_score, :feedback_summary)
+  end
+
+  def current_user_role(role_id)
+    Role.joins(:analysis).where(analyses: { user_id: current_user.id }, id: role_id).first!
+  end
+
+  def current_user_interview(interview_id)
+    Interview.joins(role: :analysis).where(analyses: { user_id: current_user.id }, id: interview_id).first!
   end
 end

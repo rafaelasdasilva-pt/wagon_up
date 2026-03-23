@@ -2,7 +2,7 @@ class Users::SessionsController < Devise::SessionsController
   private
 
   def after_sign_in_path_for(resource)
-    analysis = resource.analyses.last
+    analysis = resource.analyses.where(status: "done").last
     if analysis
       analysis_path(analysis)
     else
