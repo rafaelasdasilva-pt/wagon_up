@@ -1,0 +1,7 @@
+alice_analysis:
+  user: alice
+  status: done
+  cv_text: "Marketing manager for 5 years at agency. Completed Le Wagon bootcamp SP batch 2025. Built 3 Rails apps."
+  summary: "Alice transitioned from 5 years in marketing to full-stack development via Le Wagon."
+  skills: "Ruby, Rails, JavaScript, SQL, HTML/CSS"
+  raw_json: '{"estudante": {"nome": "Alice Silva", "resumo_chloe": "Alice has 5 years marketing background and full Rails stack.", "iniciais": "AS", "headline": "Full Stack Dev & Marketing Strategist"}}'

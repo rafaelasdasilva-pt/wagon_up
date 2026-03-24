@@ -14,7 +14,10 @@
     <div class="wu-sidebar-inner">
 
       <% if @role %>
-        <%= link_to "+ New Session", new_role_interview_path(@role), class: "btn-wu btn-wu-primary btn-wu-full mb-3" %>
+        <%= form_with url: role_interviews_path(@role), method: :post do |f| %>
+          <%= hidden_field_tag "interview[category]", @role.title %>
+          <%= f.submit "+ New Session", class: "btn-wu btn-wu-primary btn-wu-full mb-3" %>
+        <% end %>
       <% end %>
 
       <div style="font-size:.72rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.6rem">
@@ -23,13 +26,20 @@
 
       <% if @interviews.any? %>
         <% @interviews.each do |iv| %>
-          <%= link_to interview_path(iv), class: "wu-session-item text-decoration-none", style: "display:flex" do %>
-            <div style="flex:1">
-              <div style="font-size:.83rem;font-weight:600;color:var(--ink)"><%= iv.category.presence || "Interview" %></div>
-              <div style="font-size:.72rem;color:var(--ink-3)"><%= iv.created_at.strftime("%b %d, %Y") %></div>
-            </div>
-            <span class="wu-score-pill"><%= iv.overall_score ? "#{iv.overall_score}/10" : "—" %></span>
-          <% end %>
+          <div class="wu-session-item" style="display:flex;align-items:center">
+            <%= link_to interview_path(iv), style: "flex:1;text-decoration:none;display:flex;align-items:center;gap:.5rem;min-width:0" do %>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:.83rem;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><%= iv.category.presence || "Interview" %></div>
+                <div style="font-size:.72rem;color:var(--ink-3)"><%= iv.created_at.strftime("%b %d, %Y") %></div>
+              </div>
+              <span class="wu-score-pill"><%= iv.overall_score ? "#{iv.overall_score}/10" : "—" %></span>
+            <% end %>
+            <%= button_to interview_path(iv), method: :delete,
+                style: "background:none;border:none;padding:4px 6px;cursor:pointer;color:var(--ink-3);flex-shrink:0;line-height:1",
+                title: "Delete session" do %>
+              ✕
+            <% end %>
+          </div>
         <% end %>
       <% else %>
         <p style="font-size:.8rem;color:var(--ink-3);padding:.5rem .75rem;line-height:1.6">
@@ -45,7 +55,7 @@
       </div>
 
       <% answered = @interview.answers.size rescue 0 %>
-      <% total = 5 %>
+      <% total = ChloeInterviewer::TOTAL_QUESTIONS %>
 
       <div class="d-flex justify-content-between" style="font-size:.82rem;margin-bottom:.3rem">
         <span>Questions</span>
@@ -85,7 +95,7 @@
   <button class="wu-sidebar-toggle" id="wuSidebarToggle" aria-label="Toggle sidebar">‹</button>
 
   <%# ── Chat area ───────────────────────────────────────────────────────────── %>
-  <div class="wu-chat-area">
+  <div class="wu-chat-area" data-controller="chat">
 
     <div class="wu-chat-header">
       <div class="d-flex align-items-center gap-3">
@@ -103,7 +113,7 @@
     </div>
 
     <%# Conversation history %>
-    <div class="wu-chat-messages" id="wuChatMessages">
+    <div class="wu-chat-messages" id="chat-messages" data-chat-target="messages">
 
       <div class="wu-msg bot">
         <div class="wu-chloe-avatar" style="width:32px;height:32px;font-size:.85rem;flex-shrink:0">🤖</div>
@@ -133,7 +143,7 @@
         <% if answer.feedback.present? %>
           <div class="wu-msg bot">
             <div class="wu-chloe-avatar" style="width:32px;height:32px;font-size:.85rem;flex-shrink:0">🤖</div>
-            <div class="wu-msg-bubble">
+            <div class="wu-msg-bubble" style="white-space:pre-line">
               <% if answer.score %>
                 <span style="display:inline-block;background:var(--brand-pale);color:var(--brand);font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:100px;margin-bottom:.4rem">
                   Score: <%= answer.score %>/10
@@ -145,23 +155,18 @@
         <% end %>
       <% end %>
 
+      <%# Current pending question from Chloe %>
+      <% if @interview.current_question.present? && @interview.overall_score.nil? %>
+        <div class="wu-msg bot">
+          <div class="wu-chloe-avatar" style="width:32px;height:32px;font-size:.85rem;flex-shrink:0">🤖</div>
+          <div class="wu-msg-bubble"><%= @interview.current_question %></div>
+        </div>
+      <% end %>
+
     </div>
 
     <%# Answer form — submits to answers#create %>
-    <% if @interview.overall_score.nil? %>
-      <div class="wu-chat-input-row">
-        <%= form_with url: interview_answers_path(@interview), local: false, html: { id: "answerForm" } do |f| %>
-          <%= f.text_area :answer, id: "wuChatInput", class: "wu-chat-input", rows: 1,
-              placeholder: "Type your answer…",
-              onkeydown: "if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();document.getElementById('answerForm').requestSubmit()}" %>
-          <%= f.submit "➤", id: "wuSendBtn", class: "wu-btn-send" %>
-        <% end %>
-      </div>
-    <% else %>
-      <div class="wu-chat-input-row" style="justify-content:center">
-        <%= link_to "See your full results →", results_interview_path(@interview), class: "btn-wu btn-wu-primary" %>
-      </div>
-    <% end %>
+    <%= render "answer_form", interview: @interview %>
 
   </div>
 </div>

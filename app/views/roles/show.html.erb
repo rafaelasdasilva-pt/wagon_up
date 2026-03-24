@@ -252,8 +252,10 @@
       <p style="font-size:.88rem;color:var(--ink-3);margin-bottom:1.25rem">
         Start a mock interview with Chloe, tailored for <%= @role.title %> roles.
       </p>
-      <%# TODO: substituir "#" por new_role_interview_path(@role) %>
-      <%= link_to "Start interview →", "#", class: "btn-wu btn-wu-primary" %>
+      <%= form_with url: role_interviews_path(@role), method: :post do |f| %>
+        <%= hidden_field_tag "interview[category]", @role.title %>
+        <%= f.submit "Start interview →", class: "btn-wu btn-wu-primary" %>
+      <% end %>
     </div>
 
     <%# Back link bottom %>

@@ -1,0 +1,11 @@
+ongoing:
+  role: junior_dev
+  category: "Junior Web Developer"
+  current_question: "Tell me about yourself and what brought you to tech."
+
+completed:
+  role: junior_dev
+  category: "Junior Web Developer"
+  overall_score: 8
+  feedback_summary: "SESSION COMPLETE\nOverall score: 8/10\nStrongest moment: Q1 story was compelling.\n#1 gap: Technical depth on SQL.\nBefore your next interview, practice this: Write 3 SQL queries with JOINs."
+  current_question:

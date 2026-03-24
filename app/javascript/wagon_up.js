@@ -127,7 +127,8 @@ function initWagonUp() {
   // 10. Sidebar toggle
   const sidebarToggle = document.getElementById("wuSidebarToggle");
   const sidebar = document.getElementById("wuSidebar");
-  if (sidebarToggle && sidebar) {
+  if (sidebarToggle && sidebar && !sidebarToggle.dataset.bound) {
+    sidebarToggle.dataset.bound = "1";
     sidebarToggle.addEventListener("click", () => {
       sidebar.classList.toggle("collapsed");
       const collapsed = sidebar.classList.contains("collapsed");
@@ -136,86 +137,7 @@ function initWagonUp() {
     });
   }
 
-  // 11. Chat
-  const chatMessages = document.getElementById("wuChatMessages");
-  const chatInput = document.getElementById("wuChatInput");
-  const sendBtn = document.getElementById("wuSendBtn");
-  const qCount = document.getElementById("wuQCount");
-
-  const chloeReplies = [
-    "Great start! Can you tell me more about how you applied that in a real project?",
-    "Interesting — I like that you're drawing on your previous experience. Let me push a bit further: what was the hardest part of that transition?",
-    "Good answer! For a technical interview, try to quantify the impact where possible. What metrics did you have?",
-    "That's a solid response. One tip: use the STAR method to structure it — Situation, Task, Action, Result. Want to try again with that framework?"
-  ];
-  let replyIndex = 0;
-  let questionCount = 0;
-
-  function appendMessage(role, html) {
-    const wrap = document.createElement("div");
-    wrap.className = "wu-msg " + role;
-
-    if (role === "bot") {
-      const avatar = document.createElement("div");
-      avatar.className = "wu-chloe-avatar";
-      avatar.style.cssText = "width:32px;height:32px;font-size:.85rem;flex-shrink:0";
-      avatar.textContent = "🤖";
-      wrap.appendChild(avatar);
-    }
-
-    const bubble = document.createElement("div");
-    bubble.className = "wu-msg-bubble";
-    bubble.innerHTML = html;
-    wrap.appendChild(bubble);
-
-    chatMessages.appendChild(wrap);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-    return wrap;
-  }
-
-  function sendMessage() {
-    if (!chatInput || !chatMessages) return;
-    const val = chatInput.value.trim();
-    if (!val) return;
-    chatInput.value = "";
-    chatInput.style.height = "auto";
-
-    appendMessage("user", val);
-
-    const typing = appendMessage("bot", "<em style='color:var(--ink-3)'>Chloe is thinking…</em>");
-
-    setTimeout(() => {
-      typing.querySelector(".wu-msg-bubble").innerHTML = chloeReplies[replyIndex % chloeReplies.length];
-      replyIndex++;
-      questionCount = Math.min(questionCount + 1, 5);
-      if (qCount) qCount.textContent = questionCount + "/5";
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }, 1200);
-  }
-
-  if (sendBtn) sendBtn.addEventListener("click", sendMessage);
-  if (chatInput) {
-    chatInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-    });
-    chatInput.addEventListener("input", () => {
-      chatInput.style.height = "auto";
-      chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + "px";
-    });
-  }
-
-  // 12. New session
-  document.querySelectorAll(".wu-new-session").forEach(btn => {
-    btn.addEventListener("click", () => {
-      if (!chatMessages) return;
-      chatMessages.innerHTML = "";
-      replyIndex = 0;
-      questionCount = 0;
-      if (qCount) qCount.textContent = "0/5";
-
-      appendMessage("bot", "Hi! I'm Chloe, your AI interview coach. Ready to start a new session?");
-    });
-  });
+  // 11. Chat — handled by chat_controller.js (Stimulus)
 
 }
 

@@ -1,0 +1,4 @@
+alice:
+  email: alice@test.com
+  encrypted_password: $2a$04$VkzXq6TIGv3VDUKlD5ObU.vaCxEyn0I7f3Rp3/UDgcDO3Ci.3C/PK
+  name: Alice Silva

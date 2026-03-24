@@ -1,0 +1,6 @@
+q1_answered:
+  interview: ongoing
+  question: "Tell me about yourself and what brought you to tech."
+  answer: "I spent 5 years in marketing before joining Le Wagon. I built my first Rails app and never looked back."
+  feedback: "What worked: Strong narrative connecting past to present.\nTo strengthen: Add a specific project outcome.\nScore: 7/10"
+  score: 7

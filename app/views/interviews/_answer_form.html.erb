@@ -1,0 +1,19 @@
+<div id="answer-form">
+  <% if interview.overall_score.nil? %>
+    <div class="wu-chat-input-row">
+      <%= form_with model: Answer.new, url: interview_answers_path(interview),
+          html: { "data-chat-target": "form", style: "display:flex;flex:1;gap:.75rem;align-items:flex-end" } do |f| %>
+        <%= f.hidden_field :question, value: interview.current_question %>
+        <%= f.text_area :answer, class: "wu-chat-input", rows: 1,
+            placeholder: "Type your answer…",
+            "data-chat-target": "input",
+            "data-action": "input->chat#resize keydown->chat#handleKeydown" %>
+        <button type="button" class="wu-btn-send" data-chat-target="send" data-action="click->chat#clickSend">➤</button>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="wu-chat-input-row" style="justify-content:center">
+      <%= link_to "See your full results →", results_interview_path(interview), class: "btn-wu btn-wu-primary" %>
+    </div>
+  <% end %>
+</div>

@@ -1077,6 +1077,39 @@ body {
   }
 }
 
+// Typing indicator
+.wu-typing {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 14px 18px !important;
+
+  span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--brand);
+    animation: wu-bounce 1.2s infinite;
+    &:nth-child(2) { animation-delay: 0.2s; }
+    &:nth-child(3) { animation-delay: 0.4s; }
+  }
+}
+
+@keyframes wu-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+
+// Message appear animation
+.wu-msg-new {
+  animation: wu-appear 0.25s ease;
+}
+
+@keyframes wu-appear {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .wu-session-item {
   padding: .6rem .75rem;
   border-radius: 8px;

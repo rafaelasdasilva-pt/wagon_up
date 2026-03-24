@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   end
 
   # 3. Entrevista em curso → user responde → vê resultados
-  resources :interviews, only: [:show, :update] do
+  resources :interviews, only: [:show, :update, :destroy] do
     resources :answers, only: [:create]
     get :results, on: :member
   end

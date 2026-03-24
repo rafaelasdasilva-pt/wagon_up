@@ -11,13 +11,14 @@ class InterviewsController < ApplicationController
   # Cria a entrevista ligada ao role escolhido pelo user
   # role_id vem da URL (nested route)
   # Após criar, redireciona para a entrevista em curso (show)
-  # TODO: chamar ChloeInterviewer.call(@interview) para gerar as perguntas via API Anthropic
   def create
     @role = current_user_role(params[:role_id])
     @interview = Interview.new(interview_params)
     @interview.role = @role
 
     if @interview.save
+      question = ChloeInterviewer.new(@interview).first_question
+      @interview.update_column(:current_question, question)
       redirect_to interview_path(@interview), notice: "Entrevista iniciada! Boa sorte."
     else
       render :new, status: :unprocessable_entity
@@ -29,9 +30,23 @@ class InterviewsController < ApplicationController
   # Mostra as perguntas e o formulário para submeter respostas
   # @answers ordenadas por created_at — mostra a conversa em ordem cronológica
   def show
+    @interview  = current_user_interview(params[:id])
+    @answers    = @interview.answers.order(:created_at)
+    @role       = @interview.role
+    @interviews = @role.interviews.order(created_at: :desc)
+  end
+
+  # DELETE /interviews/:id
+  def destroy
     @interview = current_user_interview(params[:id])
-    @answers = @interview.answers.order(:created_at)
     @role = @interview.role
+    @interview.destroy
+    last = @role.interviews.order(created_at: :desc).first
+    if last
+      redirect_to interview_path(last)
+    else
+      redirect_to role_path(@role)
+    end
   end
 
   # PATCH /interviews/:id

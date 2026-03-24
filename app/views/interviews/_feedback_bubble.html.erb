@@ -1,0 +1,28 @@
+<%
+  feedback_text = answer.feedback.to_s
+    .gsub(/_([^_]+)_/, '\1')
+    .gsub(/\*\*([^*]+)\*\*/, '\1')
+    .sub(/\n?Score:\s*\d+\/10\s*\z/i, "")
+    .gsub(/Try again\.?\s*/i, "")
+    .strip
+
+  lines = feedback_text.split(/\n+/).map(&:strip).reject(&:blank?)
+%>
+
+<div class="wu-msg bot wu-msg-new">
+  <div class="wu-chloe-avatar" style="width:32px;height:32px;font-size:.85rem;flex-shrink:0">🤖</div>
+  <div class="wu-msg-bubble" style="padding:.7rem 1rem 1rem;display:flex;flex-direction:column;gap:0">
+    <% if answer.score %>
+      <% bg = answer.score >= 8 ? "#d1fae5" : answer.score >= 6 ? "#ede8ff" : answer.score >= 4 ? "#fef9c3" : "#fee2e2" %>
+      <% fg = answer.score >= 8 ? "#065f46" : answer.score >= 6 ? "#5b21b6" : answer.score >= 4 ? "#854d0e" : "#991b1b" %>
+      <span style="display:inline-block;background:<%= bg %>;color:<%= fg %>;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:100px;margin-bottom:.65rem;align-self:flex-start">
+        Score: <%= answer.score %>/10
+      </span>
+    <% end %>
+    <div style="display:flex;flex-direction:column;gap:.55rem">
+      <% lines.each do |line| %>
+        <p style="margin:0;font-size:.86rem;line-height:1.65;color:var(--ink)"><%= line %></p>
+      <% end %>
+    </div>
+  </div>
+</div>

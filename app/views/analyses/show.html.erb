@@ -70,7 +70,10 @@
           <p style="color:rgba(255,255,255,.6);font-size:.95rem"><%= @analysis.summary.present? ? @analysis.summary.split(".").first + "." : "Full Stack Developer & Tech Problem Solver" %></p>
           <% top_role = @analysis.roles.order(:position).first %>
           <% if top_role %>
-            <%= link_to "Start interview prep →", new_role_interview_path(top_role), class: "btn-primary mt-3 d-inline-block", data: { turbo_frame: "_top" } %>
+            <%= form_with url: role_interviews_path(top_role), method: :post, data: { turbo_frame: "_top" } do |f| %>
+              <%= hidden_field_tag "interview[category]", top_role.title %>
+              <%= f.submit "Start interview prep →", class: "btn-primary mt-3 d-inline-block" %>
+            <% end %>
           <% else %>
             <span class="btn-primary mt-3 d-inline-block" style="opacity:.5;cursor:not-allowed">Start interview prep →</span>
           <% end %>
