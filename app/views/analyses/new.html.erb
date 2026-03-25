@@ -23,7 +23,6 @@
       <!-- STEP 1: CV Upload -->
       <div id="setup-step1">
         <h2 style="font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.3rem">Set Up Your Profile</h2>
-        <p class="text-brand fw-600 mb-4" style="font-size:.9rem">Upload your CV so Chloe can extract the full picture.</p>
 
         <div class="mb-4">
           <div class="section-label">Upload Your CV</div>
@@ -36,7 +35,8 @@
           <div id="cvFileName" style="font-size:.8rem;color:var(--brand);margin-top:.5rem;display:none"></div>
         </div>
 
-        <button type="button" class="btn-primary-full" onclick="goSetupStep2()">Continue to Your Background →</button>
+        <div id="cvError" class="drop-zone-error" style="display:none">⚠️ Please upload your CV before continuing.</div>
+        <button type="button" class="btn-primary-full" onclick="goSetupStep2()">Continue →</button>
       </div>
 
       <!-- STEP 2: Your Background -->

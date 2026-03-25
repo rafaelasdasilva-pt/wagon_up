@@ -5,6 +5,19 @@ window.toggleTag = function(el) {
 };
 
 window.goSetupStep2 = function() {
+  const cvInput = document.getElementById("cvInput");
+  const cvError = document.getElementById("cvError");
+
+  if (!cvInput || !cvInput.files || cvInput.files.length === 0) {
+    if (cvError) {
+      cvError.style.display = "block";
+      setTimeout(() => { cvError.style.display = "none"; }, 4000);
+    }
+    return;
+  }
+
+  if (cvError) cvError.style.display = "none";
+
   document.getElementById("setup-step1").style.display = "none";
   document.getElementById("setup-step2").style.display = "block";
   const s1 = document.getElementById("step1-indicator");
@@ -28,11 +41,23 @@ window.goSetupStep1 = function() {
 
 window.handleCVUpload = function(input) {
   const file = input.files[0];
-  if (file) {
-    const fn = document.getElementById("cvFileName");
-    fn.textContent = "✓ " + file.name + " uploaded";
-    fn.style.display = "block";
-  }
+  if (!file) return;
+
+  const dropZone = input.closest(".drop-zone");
+  dropZone.classList.add("drop-zone--uploaded");
+  dropZone.innerHTML = `
+    <div class="drop-zone-success-icon">✅</div>
+    <div class="drop-zone-filename">${file.name}</div>
+    <div class="drop-zone-ready">Ready to analyse</div>
+    <input type="file" id="cvInput" name="analysis[file]" accept="application/pdf,.pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx" class="d-none" onchange="handleCVUpload(this)">
+  `;
+  // Re-attach the file to the new input
+  const newInput = dropZone.querySelector("#cvInput");
+  const dt = new DataTransfer();
+  dt.items.add(file);
+  newInput.files = dt.files;
+
+  dropZone.onclick = () => newInput.click();
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
