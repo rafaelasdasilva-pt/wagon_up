@@ -10,3 +10,29 @@
 .navbar-lewagon .navbar-brand img {
   width: 40px;
 }
+
+.wu-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.wu-brand-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #6B4EFF;
+  white-space: nowrap;
+}
+
+.wu-logo-wrap {
+  display: block;
+  flex-shrink: 0;
+
+  img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+}

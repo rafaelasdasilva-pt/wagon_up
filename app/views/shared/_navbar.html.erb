@@ -1,9 +1,13 @@
 <nav class="wu-nav" id="wuNav">
   <div class="wu-nav-inner">
     <% if user_signed_in? %>
-      <%= link_to "Wagon Up", analyses_path, class: "wu-brand" %>
+      <%= link_to analyses_path, class: "wu-brand" do %>
+        <span class="wu-logo-wrap"><%= image_tag "logo.png", alt: "Wagon Up" %></span><span class="wu-brand-name">Wagon Up</span>
+      <% end %>
     <% else %>
-      <%= link_to "Wagon Up", root_path, class: "wu-brand" %>
+      <%= link_to root_path, class: "wu-brand" do %>
+        <span class="wu-logo-wrap"><%= image_tag "logo.png", alt: "Wagon Up" %></span><span class="wu-brand-name">Wagon Up</span>
+      <% end %>
     <% end %>
 
     <ul class="wu-nav-links">
