@@ -1119,6 +1119,9 @@ body {
 
 .wu-hero {
   background: #0f0a1e;
+  background-image: image-url('handshake.png');
+  background-size: cover;
+  background-position: center;
   min-height: calc(100vh - 68px);
   display: flex;
   flex-direction: column;
@@ -1134,8 +1137,8 @@ body {
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 60% 60% at 30% 40%, rgba(108,62,244,.18), transparent),
-      radial-gradient(ellipse 40% 40% at 70% 70%, rgba(108,62,244,.1), transparent);
+      linear-gradient(to bottom, rgba(15,10,30,.75) 0%, rgba(15,10,30,.6) 100%),
+      radial-gradient(ellipse 60% 60% at 30% 40%, rgba(108,62,244,.25), transparent);
   }
 }
 
@@ -1169,7 +1172,7 @@ body {
 }
 
 .wu-hero-h1 {
-  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-size: clamp(1.9rem, 3.5vw, 3rem);
   font-weight: 800;
   color: #fff;
   line-height: 1.08;

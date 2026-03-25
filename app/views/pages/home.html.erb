@@ -10,18 +10,13 @@
     <span class="accent">You need the right positioning.</span>
   </h1>
 
-  <p class="wu-hero-sub sr d2">
-    Your past experience isn't an obstacle — it's your differentiator. Let our AI coach Chloe
-    reposition your career story and land your first tech job.
-  </p>
-
-  <div class="sr d3" style="position:relative;z-index:1">
+  <div class="sr d2" style="position:relative;z-index:1">
     <% if user_signed_in? %>
       <%= link_to "Go to my profile →", analyses_path, class: "btn-wu btn-wu-primary btn-wu-lg" %>
     <% else %>
       <%= link_to "Analyse my profile →", new_user_session_path, class: "btn-wu btn-wu-primary btn-wu-lg" %>
     <% end %>
-    <p class="wu-hero-note sr d4">Free analysis · No credit card required</p>
+    <p class="wu-hero-note sr d3">Free analysis · No credit card required</p>
   </div>
 </div>
 
