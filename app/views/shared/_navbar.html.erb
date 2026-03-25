@@ -12,8 +12,8 @@
 
     <ul class="wu-nav-links">
       <li><%= link_to "How it works", root_path(anchor: "how-it-works") %></li>
-      <li><a href="#">About us</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><%= link_to "About us", root_path(anchor: "about-us") %></li>
+      <li><%= link_to "Contact", root_path(anchor: "contact") %></li>
     </ul>
 
     <div class="wu-nav-right">
@@ -41,8 +41,8 @@
 
   <div class="wu-mobile-nav" id="wuMobileNav">
     <%= link_to "How it works", root_path(anchor: "how-it-works") %>
-    <a href="#">About us</a>
-    <a href="#">Contact</a>
+    <%= link_to "About us", root_path(anchor: "about-us") %>
+    <%= link_to "Contact", root_path(anchor: "contact") %>
     <% if user_signed_in? %>
       <%= link_to "My profile", analyses_path %>
       <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete } %>

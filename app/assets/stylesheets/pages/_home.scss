@@ -1,5 +1,73 @@
 // Specific CSS for your home-page
 
+// ── About Us fade-in animations ─────────────────────────────────────────────
+@keyframes wu-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.wu-about-section {
+  background: #f8f8fb;
+  padding: 6rem 1.5rem;
+  animation: wu-fade-up .6s ease both;
+}
+
+.wu-about-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  background: var(--brand-pale);
+  border: 1px solid var(--brand-dim);
+  color: var(--brand);
+  font-size: .78rem;
+  font-weight: 700;
+  padding: .35rem .9rem;
+  border-radius: 999px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  animation: wu-fade-up .6s ease .1s both;
+}
+
+.wu-about-text {
+  color: var(--ink-3);
+  line-height: 1.8;
+  font-size: 1rem;
+  margin: 0;
+  animation: wu-fade-up .6s ease .2s both;
+}
+
+.wu-about-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem .75rem;
+  text-align: center;
+  transition: box-shadow .2s, border-color .2s;
+  animation: wu-fade-up .6s ease .3s both;
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(108, 62, 244, 0.1);
+    border-color: var(--brand-dim);
+  }
+}
+
+.wu-about-card-icon {
+  font-size: 1.25rem;
+  margin-bottom: .35rem;
+}
+
+.wu-about-card-name {
+  font-weight: 800;
+  color: var(--ink);
+  font-size: .85rem;
+}
+
+.wu-about-card-role {
+  font-size: .7rem;
+  color: var(--ink-3);
+  margin-top: .15rem;
+}
+
 .wu-wave-divider {
   background: #fff;
   line-height: 0;
