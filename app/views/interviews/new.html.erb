@@ -43,7 +43,7 @@
 
       <div class="d-flex justify-content-between" style="font-size:.82rem;margin-bottom:.3rem">
         <span>Questions</span>
-        <span style="font-weight:600">0/<%= InterviewsController::TOTAL_QUESTIONS %></span>
+        <span style="font-weight:600">0/10</span>
       </div>
       <div class="wu-progress mb-3">
         <div class="wu-progress-fill" style="width:0%"></div>
@@ -102,7 +102,7 @@
           <% if @role %>
             Today we'll be practising for the <strong><%= @role.title %></strong> role.
           <% end %>
-          I'll ask you <%= InterviewsController::TOTAL_QUESTIONS %> questions. Say hi to get started! 👋
+          I'll ask you 10 questions. Say hi to get started! 👋
         </div>
       </div>
     </div>
