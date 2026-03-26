@@ -9,18 +9,18 @@
     <div class="wu-sidebar-inner">
 
       <button class="btn-wu btn-wu-primary btn-wu-full mb-3" type="button" disabled>
-        + Nova Sessão
+        + New Session
       </button>
 
       <div style="font-size:.72rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.6rem">
-        Sessões Anteriores
+        Past Sessions
       </div>
 
       <% if @interviews.any? %>
         <% @interviews.each do |iv| %>
           <%= link_to interview_path(iv), class: "wu-session-item text-decoration-none", style: "display:flex" do %>
             <div style="flex:1">
-              <div style="font-size:.83rem;font-weight:600;color:var(--ink)"><%= iv.role&.title || iv.category.presence || "Entrevista" %></div>
+              <div style="font-size:.83rem;font-weight:600;color:var(--ink)"><%= iv.role&.title || iv.category.presence || "Interview" %></div>
               <div style="font-size:.72rem;color:var(--ink-3)"><%= iv.created_at.strftime("%d %b %Y") %></div>
             </div>
             <% display_score = iv.overall_score || iv.answers.where.not(score: nil).average(:score)&.round(1) %>
@@ -31,18 +31,18 @@
         <% end %>
       <% else %>
         <p style="font-size:.8rem;color:var(--ink-3);padding:.5rem .75rem;line-height:1.6">
-          O histórico de sessões aparecerá aqui. Pronta para começar? 💪
+          Your session history will appear here. Ready to start? 💪
         </p>
       <% end %>
 
       <div style="height:1px;background:var(--border);margin:1rem 0"></div>
 
       <div style="font-size:.72rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem">
-        Progresso da Sessão
+        Session Progress
       </div>
 
       <div class="d-flex justify-content-between" style="font-size:.82rem;margin-bottom:.3rem">
-        <span>Perguntas</span>
+        <span>Questions</span>
         <span style="font-weight:600">0/<%= InterviewsController::TOTAL_QUESTIONS %></span>
       </div>
       <div class="wu-progress mb-3">
@@ -50,7 +50,7 @@
       </div>
 
       <div class="d-flex justify-content-between" style="font-size:.82rem;margin-bottom:.3rem">
-        <span>Média</span>
+        <span>Average</span>
         <span style="font-weight:600">—</span>
       </div>
       <div class="wu-progress mb-3">
@@ -60,16 +60,16 @@
       <div style="height:1px;background:var(--border);margin:1rem 0"></div>
 
       <div style="font-size:.72rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem">
-        Dicas da Chloe
+        Chloe's Tips
       </div>
       <p style="font-size:.8rem;color:var(--ink-2);line-height:1.6;margin-bottom:.75rem">
-        💡 Use o método STAR: Situação, Tarefa, Acção, Resultado.
+        💡 Use the STAR method: Situation, Task, Action, Result.
       </p>
       <p style="font-size:.8rem;color:var(--ink-2);line-height:1.6;margin-bottom:.75rem">
-        💡 A tua carreira anterior é uma vantagem — liga sempre ao passado.
+        💡 Your past career is a feature, not a bug always link it back.
       </p>
       <p style="font-size:.8rem;color:var(--ink-2);line-height:1.6;margin-bottom:.75rem">
-        💡 Pausa antes de responder. Mostra confiança, não hesitação.
+        💡 Pause before answering. It shows confidence, not hesitation.
       </p>
 
     </div>
@@ -88,7 +88,7 @@
         <div>
           <div style="font-weight:700">Chloe 2.0</div>
           <div style="font-size:.75rem;color:var(--ink-3)">
-            Coach de Entrevistas IA<% if @role %> · <strong style="color:var(--brand)"><%= @role.title %></strong><% end %>
+            AI Interview Coach<% if @role %> · <strong style="color:var(--brand)"><%= @role.title %></strong><% end %>
           </div>
         </div>
       </div>
@@ -98,18 +98,18 @@
       <div class="wu-msg bot">
         <div class="wu-chloe-avatar" style="width:32px;height:32px;font-size:.85rem;flex-shrink:0">🤖</div>
         <div class="wu-msg-bubble">
-          Olá, <%= current_user.name.split.first %>!
+          Hi, <%= current_user.name.split.first %>!
           <% if @role %>
-            Hoje vamos praticar para o cargo de <strong><%= @role.title %></strong>.
+            Today we'll be practising for the <strong><%= @role.title %></strong> role.
           <% end %>
-          Vou fazer <%= InterviewsController::TOTAL_QUESTIONS %> perguntas. Diz olá para começarmos! 👋
+          I'll ask you <%= InterviewsController::TOTAL_QUESTIONS %> questions. Say hi to get started! 👋
         </div>
       </div>
     </div>
 
     <div class="wu-chat-input-row">
       <textarea class="wu-chat-input" rows="1"
-                placeholder="Escreve algo para começar…"
+                placeholder="Type something to start…"
                 data-chat-target="input"
                 data-action="keydown.enter->chat#start:prevent"></textarea>
       <button type="button" class="wu-btn-send" data-action="click->chat#start">➤</button>

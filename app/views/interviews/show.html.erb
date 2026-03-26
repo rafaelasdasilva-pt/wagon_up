@@ -22,7 +22,7 @@
         <% @interviews.each do |iv| %>
           <%= link_to interview_path(iv), class: "wu-session-item text-decoration-none", style: "display:flex" do %>
             <div style="flex:1">
-              <div style="font-size:.83rem;font-weight:600;color:var(--ink)"><%= iv.role&.title || iv.category.presence || "Entrevista" %></div>
+              <div style="font-size:.83rem;font-weight:600;color:var(--ink)"><%= iv.role&.title || iv.category.presence || "Interview" %></div>
               <div style="font-size:.72rem;color:var(--ink-3)"><%= iv.created_at.strftime("%d %b %Y") %></div>
             </div>
             <% display_score = iv.overall_score || (iv.answers.loaded? ? iv.avg_score : iv.answers.where.not(score: nil).average(:score)&.round(1)) %>
@@ -33,7 +33,7 @@
         <% end %>
       <% else %>
         <p style="font-size:.8rem;color:var(--ink-3);padding:.5rem .75rem;line-height:1.6">
-          O histórico de sessões aparecerá aqui. Pronta para começar? 💪
+          Your session history will appear here. Ready to start? 💪
         </p>
       <% end %>
 
@@ -48,7 +48,7 @@
       <% total = InterviewsController::TOTAL_QUESTIONS %>
 
       <div class="d-flex justify-content-between" style="font-size:.82rem;margin-bottom:.3rem">
-        <span>Perguntas</span>
+        <span>Questions</span>
         <span style="font-weight:600"><%= answered %>/<%= total %></span>
       </div>
       <div class="wu-progress mb-3">
@@ -57,7 +57,7 @@
 
       <% avg = @interview.avg_score %>
       <div class="d-flex justify-content-between" style="font-size:.82rem;margin-bottom:.3rem">
-        <span>Média</span>
+        <span>Average</span>
         <span style="font-weight:600 <%= score_color_class(avg.to_i) %>"><%= avg > 0 ? "#{avg}/10" : "—" %></span>
       </div>
       <div class="wu-progress mb-3">
@@ -95,7 +95,7 @@
         <div>
           <div style="font-weight:700">Chloe 2.0</div>
           <div style="font-size:.75rem;color:var(--ink-3)">
-            Coach de Entrevistas IA<% if @role %> · <strong style="color:var(--brand)"><%= @role.title %></strong><% end %>
+            AI Interview Coach<% if @role %> · <strong style="color:var(--brand)"><%= @role.title %></strong><% end %>
           </div>
         </div>
       </div>
@@ -110,12 +110,12 @@
       <div class="wu-msg bot">
         <div class="wu-chloe-avatar" style="width:32px;height:32px;font-size:.85rem;flex-shrink:0">🤖</div>
         <div class="wu-msg-bubble">
-          Olá, <%= current_user.name.split.first %>!<% if @role %> Hoje vamos praticar para o cargo de <strong><%= @role.title %></strong>.<% end %>
+          Hi, <%= current_user.name.split.first %>!<% if @role %> Today we're practising for the <strong><%= @role.title %></strong> role.<% end %>
           <% if @interview.answers.none? %>
             <% if @interview.overall_score %>
-              Esta entrevista foi concluída.
+              This interview has been completed.
             <% else %>
-              Houve um problema ao gerar a primeira pergunta. Inicia uma nova sessão.
+              There was a problem generating the first question. Please start a new session.
             <% end %>
           <% end %>
         </div>
@@ -155,14 +155,14 @@
     <% if @interview.overall_score.nil? %>
       <div class="wu-chat-input-row">
         <textarea class="wu-chat-input" rows="1"
-                  placeholder="Escreve a tua resposta…"
+                  placeholder="Type your answer…"
                   data-chat-target="input"
                   data-action="keydown.enter->chat#answer:prevent"></textarea>
         <button type="button" class="wu-btn-send" data-action="click->chat#answer">➤</button>
       </div>
     <% else %>
       <div class="wu-chat-input-row" style="justify-content:center">
-        <%= link_to "Ver resultados completos →", results_interview_path(@interview), class: "btn-wu btn-wu-primary" %>
+        <%= link_to "See full results →", results_interview_path(@interview), class: "btn-wu btn-wu-primary" %>
       </div>
     <% end %>
 

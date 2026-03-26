@@ -33,7 +33,7 @@ export default class extends Controller {
       this.enableInput()
     } catch (e) {
       this.removeLoading(loadingId)
-      this.appendBot("Desculpa, houve um erro a iniciar a entrevista. Tenta novamente.")
+      this.appendBot("Sorry, there was an error starting the interview. Please try again.")
       console.error("start() error:", e)
       this.enableInput()
     }
@@ -64,7 +64,7 @@ export default class extends Controller {
       }
     } catch {
       this.removeLoading(loadingId)
-      this.appendBot("Desculpa, houve um erro. Tenta novamente.")
+      this.appendBot("Sorry, something went wrong. Please try again.")
       this.enableInput()
     }
   }
@@ -89,7 +89,7 @@ export default class extends Controller {
     const id = `loading-${Date.now()}`
     const div = this.appendMessage("bot", `
       <div class="wu-chloe-avatar" style="width:32px;height:32px;font-size:.85rem;flex-shrink:0">🤖</div>
-      <div class="wu-msg-bubble" style="opacity:.5;font-style:italic">Chloe está a pensar...</div>
+      <div class="wu-msg-bubble" style="opacity:.5;font-style:italic">Chloe is thinking...</div>
     `)
     div.id = id
     return id
@@ -111,7 +111,7 @@ export default class extends Controller {
   replaceInputWithResults(url) {
     const row = this.element.querySelector(".wu-chat-input-row")
     if (row) {
-      row.innerHTML = `<a href="${url}" class="btn-wu btn-wu-primary">Ver resultados completos →</a>`
+      row.innerHTML = `<a href="${url}" class="btn-wu btn-wu-primary">See full results →</a>`
       row.style.justifyContent = "center"
     }
   }
