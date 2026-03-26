@@ -48,6 +48,7 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem 'pdf-reader'
 gem 'docx'
+gem 'matrix'
 gem 'prawn'
 gem 'prawn-table'
 

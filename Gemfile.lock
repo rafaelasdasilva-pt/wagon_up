@@ -506,6 +506,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  matrix
   pdf-reader
   pg (~> 1.1)
   prawn
