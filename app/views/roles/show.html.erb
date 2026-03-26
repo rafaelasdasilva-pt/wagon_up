@@ -211,51 +211,44 @@
       </div>
     <% end %>
 
-    <%# AI Resume Prompt %>
-    <% prompt_text = @analysis&.raw_json&.dig("cargos_sugeridos", @role.position - 1, "prompt_curriculo") %>
+    <%# AI CV Generator %>
     <div class="sr d4" style="margin-bottom:1.5rem">
       <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem">
-        <span style="font-size:.72rem;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap">AI Resume Prompt</span>
+        <span style="font-size:.72rem;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.12em;white-space:nowrap">AI CV Generator</span>
         <div style="flex:1;height:1px;background:var(--border)"></div>
       </div>
 
-      <div class="wu-prompt-box" data-controller="clipboard">
-        <div style="font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:.3rem">Ready-to-use resume prompt</div>
-        <p style="font-size:.87rem;color:var(--ink-3);margin-bottom:1.1rem">
-          Copy and paste this directly into
-          <a href="https://chat.openai.com" target="_blank" style="color:var(--ink-2);font-weight:600;text-decoration:none;border-bottom:1px solid var(--border)">ChatGPT</a>,
-          <a href="https://claude.ai" target="_blank" style="color:var(--ink-2);font-weight:600;text-decoration:none;border-bottom:1px solid var(--border)">Claude</a> or
-          <a href="https://huntr.co" target="_blank" style="color:var(--ink-2);font-weight:600;text-decoration:none;border-bottom:1px solid var(--border)">Huntr</a>
-          to generate your optimised resume.
+      <div class="wu-prompt-box">
+        <div style="font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:.3rem">Your tailored CV, ready to download</div>
+        <p style="font-size:.87rem;color:var(--ink-3);margin-bottom:1.25rem">
+          We read your CV and generates a new, optimised version tailored specifically for
+          <strong><%= @role.title %></strong> highlighting your transferable skills and bootcamp projects.
+          Download it as a PDF
         </p>
 
-        <% fallback_prompt = "I am a Le Wagon bootcamp graduate transitioning into a #{@role.title} role. My technical skills include Ruby on Rails, JavaScript, React, SQL, HTML/CSS, Git, and REST APIs.\n\nPlease write a tailored resume and cover letter for a #{@role.title} position, highlighting:\n- My transferable skills from my previous career\n- My bootcamp achievements and projects\n- My ability to bridge product and engineering perspectives\n- ATS-friendly keywords for a #{@role.title} role" %>
-        <div class="wu-prompt-text" data-clipboard-target="source" id="promptText">
-          <%= simple_format(prompt_text.present? ? prompt_text : fallback_prompt) %>
-        </div>
+        <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+          <a href="<%= cv_role_path(@role) %>"
+             id="cv-download-btn"
+             data-turbo="false"
+             onclick="
+               var btn = document.getElementById('cv-download-btn');
+               btn.style.opacity = '0.7';
+               btn.style.pointerEvents = 'none';
+               btn.innerHTML = '<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' fill=\'currentColor\' viewBox=\'0 0 16 16\' style=\'animation:spin 1s linear infinite;flex-shrink:0\'><path d=\'M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z\'/><path d=\'M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z\'/></svg> Generating your CV...';
+               setTimeout(function(){ btn.style.opacity='1'; btn.style.pointerEvents='auto'; btn.innerHTML='<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' fill=\'currentColor\' viewBox=\'0 0 16 16\' style=\'flex-shrink:0\'><path d=\'M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5\'/><path d=\'M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z\'/></svg> Generate &amp; Download CV'; }, 40000);"
+             style="display:inline-flex;align-items:center;gap:.6rem;background:var(--brand);color:#fff;border:none;border-radius:10px;padding:.75rem 1.5rem;font-size:.95rem;font-weight:700;cursor:pointer;text-decoration:none;transition:opacity .2s">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="flex-shrink:0">
+              <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+              <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+            </svg>
+            Generate &amp; Download CV
+          </a>
 
-        <div style="display:flex;align-items:center;gap:.75rem;margin-top:1.25rem;flex-wrap:wrap">
-          <button data-action="click->clipboard#copy"
-            style="display:inline-flex;align-items:center;gap:.5rem;background:var(--brand);color:#fff;border:none;border-radius:10px;padding:.7rem 1.3rem;font-size:.9rem;font-weight:700;cursor:pointer;transition:background .2s"
-            onmouseover="this.style.background='var(--brand-dark)'" onmouseout="this.style.background='var(--brand)'">
-            📋 Copy prompt
-          </button>
-          <a href="https://chat.openai.com" target="_blank"
-            style="display:inline-flex;align-items:center;gap:.5rem;background:#fff;color:var(--ink);border:1.5px solid var(--border);border-radius:10px;padding:.7rem 1.2rem;font-size:.9rem;font-weight:600;text-decoration:none;transition:border-color .2s"
-            onmouseover="this.style.borderColor='var(--brand)'" onmouseout="this.style.borderColor='var(--border)'">
-            🤖 ChatGPT
-          </a>
-          <a href="https://claude.ai" target="_blank"
-            style="display:inline-flex;align-items:center;gap:.5rem;background:#fff;color:var(--ink);border:1.5px solid var(--border);border-radius:10px;padding:.7rem 1.2rem;font-size:.9rem;font-weight:600;text-decoration:none;transition:border-color .2s"
-            onmouseover="this.style.borderColor='var(--brand)'" onmouseout="this.style.borderColor='var(--border)'">
-            ✦ Claude
-          </a>
-          <a href="https://huntr.co" target="_blank"
-            style="display:inline-flex;align-items:center;gap:.5rem;background:#fff;color:var(--ink);border:1.5px solid var(--border);border-radius:10px;padding:.7rem 1.2rem;font-size:.9rem;font-weight:600;text-decoration:none;transition:border-color .2s"
-            onmouseover="this.style.borderColor='var(--brand)'" onmouseout="this.style.borderColor='var(--border)'">
-            🎯 Huntr
-          </a>
+          <span style="font-size:.8rem;color:var(--ink-3)">
+            PDF · Tailored for <%= @role.title %> · ATS-optimised
+          </span>
         </div>
+        <style>@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }</style>
       </div>
     </div>
 

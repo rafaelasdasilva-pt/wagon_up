@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   # 2. User vê detalhes de um role e inicia entrevista
   resources :roles, only: [:show] do
+    get :cv, on: :member
     resources :interviews, only: [:new, :create]
   end
 

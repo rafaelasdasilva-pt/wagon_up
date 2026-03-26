@@ -48,6 +48,8 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem 'pdf-reader'
 gem 'docx'
+gem 'prawn'
+gem 'prawn-table'
 
 group :development, :test do
   gem "dotenv-rails"
