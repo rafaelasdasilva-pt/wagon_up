@@ -108,7 +108,7 @@
     <div class="wu-chat-messages" data-chat-target="messages">
 
       <div class="wu-msg bot">
-        <div class="wu-chloe-avatar" style="width:32px;height:32px;flex-shrink:0"><%= image_tag "chloe_avatar.png", alt: "Chloe" %></div>
+        <div class="wu-chloe-avatar" style="width:42px;height:42px;flex-shrink:0"><%= image_tag "chloe_avatar.png", alt: "Chloe" %></div>
         <div class="wu-msg-bubble">
           Hi, <%= current_user.name.split.first %>!<% if @role %> Today we're practising for the <strong><%= @role.title %></strong> role.<% end %>
           <% if @interview.answers.none? %>
@@ -125,7 +125,7 @@
       <% @interview.answers.each do |answer| %>
         <% if answer.question.present? %>
           <div class="wu-msg bot">
-            <div class="wu-chloe-avatar" style="width:32px;height:32px;flex-shrink:0"><%= image_tag "chloe_avatar.png", alt: "Chloe" %></div>
+            <div class="wu-chloe-avatar" style="width:42px;height:42px;flex-shrink:0"><%= image_tag "chloe_avatar.png", alt: "Chloe" %></div>
             <div class="wu-msg-bubble"><%= answer.question %></div>
           </div>
         <% end %>
@@ -136,7 +136,7 @@
         <% end %>
         <% if answer.feedback.present? %>
           <div class="wu-msg bot">
-            <div class="wu-chloe-avatar" style="width:32px;height:32px;flex-shrink:0"><%= image_tag "chloe_avatar.png", alt: "Chloe" %></div>
+            <div class="wu-chloe-avatar" style="width:42px;height:42px;flex-shrink:0"><%= image_tag "chloe_avatar.png", alt: "Chloe" %></div>
             <div class="wu-msg-bubble">
               <% if answer.score %>
                 <span style="display:inline-block;background:var(--brand-pale);color:var(--brand);font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:100px;margin-bottom:.4rem">
