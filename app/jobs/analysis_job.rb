@@ -8,7 +8,8 @@ class AnalysisJob < ApplicationJob
       analysis.cv_text,
       hard_skills: analysis.hard_skills_selected,
       soft_skills: analysis.soft_skills_selected,
-      target_markets: analysis.target_markets
+      target_markets: analysis.target_markets,
+      user_name: analysis.user.name.split.first
     ).call
 
     skills = result.dig("cargos_sugeridos", 0, "analise_lacunas", "tenho") || []

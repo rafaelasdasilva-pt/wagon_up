@@ -60,13 +60,16 @@ class ClaudeAnalyser
 
     Markets to analyse: {{TARGET_MARKETS}}
 
+    Student first name to use in all text (resumo_chloe, mensagem_chloe): {{USER_NAME}}
+
     ## QUALITY RULES
 
     - `breakdown.passado`: short, specific label — MAXIMUM 4 words. Examples: "5 yrs data L'Oréal", "Rails bootcamp Le Wagon", "Team management". NEVER a full sentence.
     - `breakdown.futuro`: outcome in a short phrase — MAXIMUM 5 words. Examples: "Fullstack ready day one", "Data-driven decisions", "Communicates with stakeholders". NEVER more than one phrase.
     - `mercados.insight`: 2 sentences — Sentence 1: sector trend + numerical data. Sentence 2: why THIS student specifically.
     - `analise_lacunas.falta`: NEVER list a skill the student already has. REAL resource with platform + cost + duration.
-    - `mensagem_chloe`: exactly 2 sentences, use <strong> on one keyword, use the first name.
+    - `mensagem_chloe`: exactly 2 sentences, use <strong> on one keyword, use the first name provided in {{USER_NAME}}.
+    - `resumo_chloe`: ALWAYS start with the first name provided in {{USER_NAME}}, never use a name extracted from the CV.
     - `prompt_curriculo`: 150–200 words, first person, ≥5 ATS keywords, confident tone.
     - Percentages: Role 1 = 82–92%, Role 2 = 73–83%, Role 3 = 64–76%. Never multiples of 5.
     - `rotulo_compatibilidade`: use EXACTLY — 82–92% = "Excellent Fit", 73–83% = "Good Fit", 64–76% = "Solid Fit".
@@ -107,11 +110,12 @@ class ClaudeAnalyser
     Reply ONLY with valid JSON following exactly the structure of the example. Start with { and end with }. Exactly 3 objects in cargos_sugeridos, each with the markets indicated in {{TARGET_MARKETS}}. The keys of the "mercados" object MUST be exactly the country names provided in {{TARGET_MARKETS}}, without translation or alteration. ALL text values must be in English.
   PROMPT
 
-  def initialize(cv_text, hard_skills: nil, soft_skills: nil, target_markets: nil)
+  def initialize(cv_text, hard_skills: nil, soft_skills: nil, target_markets: nil, user_name: nil)
     @cv_text = cv_text
     @hard_skills = hard_skills.presence || ""
     @soft_skills = soft_skills.presence || ""
     @target_markets = target_markets.presence || "Brazil, Portugal, United States"
+    @user_name = user_name.presence || ""
   end
 
   def call
@@ -151,6 +155,7 @@ class ClaudeAnalyser
       .gsub("{{HARD_SKILLS}}", @hard_skills)
       .gsub("{{SOFT_SKILLS}}", @soft_skills)
       .gsub("{{TARGET_MARKETS}}", @target_markets)
+      .gsub("{{USER_NAME}}", @user_name)
       .gsub("{{BATCH}}", "")
   end
 
