@@ -44,7 +44,7 @@ class AnalysesController < ApplicationController
 
       AnalysisJob.perform_later(@analysis.id)
 
-      redirect_to analysis_path(@analysis), notice: "CV enviado! A Chloe está a analisar o teu perfil..."
+      redirect_to analysis_path(@analysis), notice: "CV sent, we are working on it!"
     else
       render :new, status: :unprocessable_entity
     end
