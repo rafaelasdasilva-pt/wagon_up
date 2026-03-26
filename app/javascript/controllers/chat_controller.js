@@ -76,7 +76,7 @@ export default class extends Controller {
       ? `<span style="display:inline-block;background:var(--brand-pale);color:var(--brand);font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:100px;margin-bottom:.4rem">Score: ${score}/10</span><br>`
       : ""
     this.appendMessage("bot", `
-      <div class="wu-chloe-avatar" style="width:56px;height:56px;flex-shrink:0"><img src="/assets/chloe_avatar.png" alt="Chloe" style="width:100%;height:100%;object-fit:cover;border-radius:50%;transform:scale(1.55)"></div>
+      <div class="wu-chloe-avatar" style="width:56px;height:56px;flex-shrink:0"><img src="/assets/chloe_avatar.png" alt="Chloe" style="width:100%;height:100%;object-fit:cover;border-radius:50%;transform:scale(1.25)"></div>
       <div class="wu-msg-bubble">${scoreHtml}${this.escapeHtml(content)}</div>
     `)
   }
@@ -88,7 +88,7 @@ export default class extends Controller {
   appendLoading() {
     const id = `loading-${Date.now()}`
     const div = this.appendMessage("bot", `
-      <div class="wu-chloe-avatar" style="width:56px;height:56px;flex-shrink:0"><img src="/assets/chloe_avatar.png" alt="Chloe" style="width:100%;height:100%;object-fit:cover;border-radius:50%;transform:scale(1.55)"></div>
+      <div class="wu-chloe-avatar" style="width:56px;height:56px;flex-shrink:0"><img src="/assets/chloe_avatar.png" alt="Chloe" style="width:100%;height:100%;object-fit:cover;border-radius:50%;transform:scale(1.25)"></div>
       <div class="wu-msg-bubble" style="opacity:.5;font-style:italic">Chloe is thinking...</div>
     `)
     div.id = id
