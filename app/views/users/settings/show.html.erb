@@ -1,0 +1,155 @@
+<% content_for :title, "Account Settings" %>
+
+<div class="settings-page">
+  <div class="settings-container">
+
+    <div class="settings-header">
+      <h1>Account Settings</h1>
+      <p>Manage your profile, security and account preferences.</p>
+    </div>
+
+    <%# Flash messages %>
+    <% if notice %>
+      <div class="settings-alert settings-alert--success"><%= notice %></div>
+    <% end %>
+    <% if alert %>
+      <div class="settings-alert settings-alert--error"><%= alert %></div>
+    <% end %>
+
+    <%# ── 1. Profile Photo ──────────────────────────────────────────── %>
+    <div class="settings-card">
+      <div class="settings-card-header">
+        <div>
+          <div class="settings-card-title">Profile Photo</div>
+          <div class="settings-card-subtitle">This photo appears in the navigation bar.</div>
+        </div>
+      </div>
+
+      <div class="settings-avatar-section">
+        <div class="settings-avatar-preview" id="avatarPreview">
+          <% if current_user.avatar.attached? %>
+            <%= image_tag current_user.avatar, class: "settings-avatar-img" %>
+          <% else %>
+            <span class="settings-avatar-initials"><%= current_user.name.split.map(&:first).first(2).join.upcase %></span>
+          <% end %>
+        </div>
+
+        <%= form_with url: update_account_avatar_path, method: :patch, multipart: true do |f| %>
+          <div class="settings-avatar-actions">
+            <label class="btn-settings-secondary" for="avatarFileInput">
+              Upload photo
+              <input type="file" id="avatarFileInput" name="avatar"
+                     accept="image/png,image/jpeg,image/webp"
+                     class="d-none" onchange="previewAvatar(this)">
+            </label>
+            <% if current_user.avatar.attached? %>
+              <button type="submit" class="btn-settings-primary">Save photo</button>
+            <% else %>
+              <button type="submit" class="btn-settings-primary" id="saveAvatarBtn" style="display:none">Save photo</button>
+            <% end %>
+          </div>
+          <p class="settings-hint">PNG, JPG or WebP · max 5MB</p>
+        <% end %>
+      </div>
+    </div>
+
+    <%# ── 2. Personal Info ──────────────────────────────────────────── %>
+    <div class="settings-card">
+      <div class="settings-card-header">
+        <div>
+          <div class="settings-card-title">Personal Information</div>
+          <div class="settings-card-subtitle">Update your name and email address. Your current password is required.</div>
+        </div>
+      </div>
+
+      <%= form_with model: current_user, url: update_account_profile_path, method: :patch do |f| %>
+        <% if current_user.errors.any? && params[:action] == "update_profile" %>
+          <div class="settings-alert settings-alert--error"><%= current_user.errors.full_messages.first %></div>
+        <% end %>
+
+        <div class="settings-field-row">
+          <div class="settings-field">
+            <label class="settings-label">Full Name</label>
+            <%= f.text_field :name, class: "settings-input", placeholder: "Your name" %>
+          </div>
+          <div class="settings-field">
+            <label class="settings-label">Email Address</label>
+            <%= f.email_field :email, class: "settings-input", placeholder: "your@email.com" %>
+          </div>
+        </div>
+
+        <div class="settings-field" style="max-width:340px">
+          <label class="settings-label">Current Password <span class="settings-required">*</span></label>
+          <%= f.password_field :current_password, class: "settings-input", placeholder: "Required to save changes", autocomplete: "current-password" %>
+        </div>
+
+        <div class="settings-card-footer">
+          <%= f.submit "Save changes", class: "btn-settings-primary" %>
+        </div>
+      <% end %>
+    </div>
+
+    <%# ── 3. Change Password ────────────────────────────────────────── %>
+    <div class="settings-card">
+      <div class="settings-card-header">
+        <div>
+          <div class="settings-card-title">Change Password</div>
+          <div class="settings-card-subtitle">Choose a strong password with at least 6 characters.</div>
+        </div>
+      </div>
+
+      <%= form_with model: current_user, url: update_account_password_path, method: :patch do |f| %>
+        <div class="settings-field-row">
+          <div class="settings-field">
+            <label class="settings-label">Current Password</label>
+            <%= f.password_field :current_password, class: "settings-input", placeholder: "••••••••", autocomplete: "current-password" %>
+          </div>
+          <div class="settings-field">
+            <label class="settings-label">New Password</label>
+            <%= f.password_field :password, class: "settings-input", placeholder: "Min. 6 characters", autocomplete: "new-password" %>
+          </div>
+          <div class="settings-field">
+            <label class="settings-label">Confirm New Password</label>
+            <%= f.password_field :password_confirmation, class: "settings-input", placeholder: "Repeat new password", autocomplete: "new-password" %>
+          </div>
+        </div>
+
+        <div class="settings-card-footer">
+          <%= f.submit "Update password", class: "btn-settings-primary" %>
+        </div>
+      <% end %>
+    </div>
+
+    <%# ── 4. Danger Zone ───────────────────────────────────────────── %>
+    <div class="settings-card settings-card--danger">
+      <div class="settings-card-header">
+        <div>
+          <div class="settings-card-title settings-card-title--danger">Delete Account</div>
+          <div class="settings-card-subtitle">Permanently delete your account and all associated data. This action cannot be undone.</div>
+        </div>
+      </div>
+
+      <div class="settings-card-footer">
+        <%= button_to "Delete my account", destroy_account_path, method: :delete,
+            class: "btn-settings-danger",
+            form: { data: { turbo_confirm: "Are you sure? This will permanently delete your account and all your analyses. This cannot be undone." } } %>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function previewAvatar(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const preview = document.getElementById("avatarPreview");
+      preview.innerHTML = `<img src="${e.target.result}" class="settings-avatar-img" alt="Preview">`;
+      const saveBtn = document.getElementById("saveAvatarBtn");
+      if (saveBtn) saveBtn.style.display = "inline-flex";
+    };
+    reader.readAsDataURL(file);
+  }
+</script>

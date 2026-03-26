@@ -153,6 +153,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  overflow: hidden;
 }
 
 .wu-avatar-dropdown {
@@ -1631,4 +1633,241 @@ body {
       &:hover { opacity: 1; }
     }
   }
+}
+
+// ─── Account Settings ─────────────────────────────────────────────────────
+
+.settings-page {
+  background: var(--bg);
+  min-height: calc(100vh - 68px);
+  padding: 3rem 1rem 5rem;
+}
+
+.settings-container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.settings-header {
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -.03em;
+    margin-bottom: .3rem;
+  }
+
+  p {
+    font-size: .9rem;
+    color: var(--ink-3);
+  }
+}
+
+.settings-card {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  margin-bottom: 1.25rem;
+
+  &--danger {
+    border-color: #fecaca;
+    background: #fff9f9;
+  }
+}
+
+.settings-card-header {
+  margin-bottom: 1.5rem;
+}
+
+.settings-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: .25rem;
+
+  &--danger { color: #dc2626; }
+}
+
+.settings-card-subtitle {
+  font-size: .83rem;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+
+.settings-card-footer {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.settings-avatar-section {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.settings-avatar-preview {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.settings-avatar-initials {
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.settings-avatar-img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  display: block;
+}
+
+.settings-avatar-actions {
+  display: flex;
+  gap: .75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: .4rem;
+}
+
+.settings-hint {
+  font-size: .75rem;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+.settings-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  @media (max-width: 560px) { grid-template-columns: 1fr; }
+}
+
+.settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+.settings-label {
+  font-size: .83rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.settings-required {
+  color: #dc2626;
+}
+
+.settings-input {
+  padding: .65rem .9rem;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: .9rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  background: #fff;
+
+  &:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(108,62,244,.12);
+  }
+}
+
+.settings-alert {
+  padding: .75rem 1rem;
+  border-radius: 10px;
+  font-size: .87rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+
+  &--success {
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #86efac;
+  }
+
+  &--error {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+  }
+}
+
+.btn-settings-primary {
+  display: inline-flex;
+  align-items: center;
+  padding: .65rem 1.4rem;
+  background: var(--brand);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: .88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s;
+  text-decoration: none;
+
+  &:hover { background: var(--brand-dark); color: #fff; }
+}
+
+.btn-settings-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: .65rem 1.4rem;
+  background: #fff;
+  color: var(--ink);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: .88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .2s;
+
+  &:hover { border-color: var(--brand); color: var(--brand); }
+}
+
+.btn-settings-danger {
+  display: inline-flex;
+  align-items: center;
+  padding: .65rem 1.4rem;
+  background: #fff;
+  color: #dc2626;
+  border: 1.5px solid #fecaca;
+  border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: .88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s, border-color .2s;
+
+  &:hover { background: #fef2f2; border-color: #dc2626; }
+}
+
+// Avatar photo in navbar
+.wu-avatar-photo {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+  display: block;
 }
