@@ -8,7 +8,7 @@
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "wu-auth-form" }) do |f| %>
       <div class="mb-3">
         <%= f.label :email, "Email address" %>
-        <%= f.email_field :email, placeholder: "clara@email.com", autocomplete: "email", autofocus: true %>
+        <%= f.email_field :email, placeholder: "Your email", autocomplete: "email", autofocus: true %>
       </div>
 
       <div class="mb-3">

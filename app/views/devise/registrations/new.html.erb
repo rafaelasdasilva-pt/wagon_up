@@ -3,7 +3,7 @@
     <%= link_to "Wagon Up", root_path, class: "wu-brand", style: "display:block;text-align:center;font-size:1.5rem;margin-bottom:1rem;text-decoration:none" %>
 
     <h1 class="wu-auth-title">Create your account</h1>
-    <p class="wu-auth-sub">Start your journey to your first tech role — it's free.</p>
+    <p class="wu-auth-sub">Start your journey to your first tech role </p>
 
     <% if resource.errors.any? %>
       <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:1rem;margin-bottom:1rem;font-size:.83rem;color:#dc2626">
@@ -16,12 +16,12 @@
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "wu-auth-form" }) do |f| %>
       <div class="mb-3">
         <%= f.label :name, "Full Name" %>
-        <%= f.text_field :name, placeholder: "Clara Lima", autocomplete: "name", autofocus: true %>
+        <%= f.text_field :name, placeholder: "Your name", autocomplete: "name", autofocus: true %>
       </div>
 
       <div class="mb-3">
         <%= f.label :email, "Email address" %>
-        <%= f.email_field :email, placeholder: "clara@email.com", autocomplete: "email" %>
+        <%= f.email_field :email, placeholder: "Your email", autocomplete: "email" %>
       </div>
 
       <div class="mb-3">
@@ -45,6 +45,5 @@
     <div class="wu-auth-switch">
       Already have an account? <%= link_to "Sign in", new_user_session_path %>
     </div>
-    <div class="wu-auth-reassure">No credit card required. Free forever.</div>
   </div>
 </div>

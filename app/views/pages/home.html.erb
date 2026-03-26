@@ -14,9 +14,9 @@
     <% if user_signed_in? %>
       <%= link_to "Go to my profile →", analyses_path, class: "btn-wu btn-wu-primary btn-wu-lg" %>
     <% else %>
-      <%= link_to "Analyse my profile →", new_user_session_path, class: "btn-wu btn-wu-primary btn-wu-lg" %>
+      <%= link_to "Sign up here", new_user_registration_path, class: "btn-wu btn-wu-primary btn-wu-lg" %>
     <% end %>
-    <p class="wu-hero-note sr d3">Free analysis. No credit card required</p>
+    <p class="wu-hero-note sr d3">For Le Wagon graduates ready to land their first tech job</p>
   </div>
 </div>
 
@@ -43,8 +43,45 @@
   </svg>
 </div>
 
+<section class="py-9" id="how-it-works" style="background:#f5f3ff">
+  <div class="container" style="max-width:1100px">
+    <div class="text-center mb-5">
+      <h2 class="fw-800 fs-2">How it works</h2>
+      <p style="color:var(--ink-3);max-width:480px;margin:0 auto;line-height:1.7">
+        Four steps from upload to offer. The whole process takes under 10 minutes.
+      </p>
+    </div>
+
+    <div class="wu-steps-row">
+      <div class="wu-step text-center sr">
+        <div class="wu-step-circle">01</div>
+        <h6 class="fw-800 mb-2">Upload your CV</h6>
+        <p style="font-size:.85rem;color:var(--ink-3);line-height:1.6">Drop your PDF and we extract your full career story in seconds.</p>
+      </div>
+      <div class="wu-step-line"></div>
+      <div class="wu-step text-center sr d1">
+        <div class="wu-step-circle">02</div>
+        <h6 class="fw-800 mb-2">Get your analysis</h6>
+        <p style="font-size:.85rem;color:var(--ink-3);line-height:1.6">We identify your transferable skills and market positioning.</p>
+      </div>
+      <div class="wu-step-line"></div>
+      <div class="wu-step text-center sr d2">
+        <div class="wu-step-circle">03</div>
+        <h6 class="fw-800 mb-2">Explore career paths</h6>
+        <p style="font-size:.85rem;color:var(--ink-3);line-height:1.6">Choose from 3 curated roles matched to your unique background.</p>
+      </div>
+      <div class="wu-step-line"></div>
+      <div class="wu-step text-center sr d3">
+        <div class="wu-step-circle">04</div>
+        <h6 class="fw-800 mb-2">Practice with the chat</h6>
+        <p style="font-size:.85rem;color:var(--ink-3);line-height:1.6">Run mock interviews and get scored feedback until you're ready.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <%# ── Features ─────────────────────────────────────────────────────────────── %>
-<section class="py-9" style="background:#f5f3ff">
+<section class="py-9" style="background:#ede9fe">
   <div class="container" style="max-width:1100px">
     <div class="text-center mb-5">
       <h2 class="fw-800 fs-2">Three tools. One goal: <span class="text-brand">get hired.</span></h2>
@@ -74,50 +111,12 @@
       <div class="col-12 col-md-4 sr d2">
         <div class="wu-card wu-card-hover h-100">
           <div style="font-size:2rem;margin-bottom:1rem">💬</div>
-          <h5 class="fw-800 mb-2"> Interview Coach</h5>
+          <h5 class="fw-800 mb-2">Interview Coach</h5>
           <p style="color:var(--ink-3);font-size:.9rem;line-height:1.7">
             Practice with the chat, get real-time feedback, scores, and
             improvement tips after each answer.
           </p>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<%# ── How it works ─────────────────────────────────────────────────────────── %>
-<section class="py-9" id="how-it-works">
-  <div class="container" style="max-width:1100px">
-    <div class="text-center mb-5">
-      <h2 class="fw-800 fs-2">How it works</h2>
-      <p style="color:var(--ink-3);max-width:480px;margin:0 auto;line-height:1.7">
-        Four steps from upload to offer. The whole process takes under 10 minutes.
-      </p>
-    </div>
-
-    <div class="wu-steps-row">
-      <div class="wu-step text-center sr">
-        <div class="wu-step-circle">01</div>
-        <h6 class="fw-800 mb-2">Upload your CV</h6>
-        <p style="font-size:.85rem;color:var(--ink-3);line-height:1.6">Drop your PDF and we extract your full career story in seconds.</p>
-      </div>
-      <div class="wu-step-line"></div>
-      <div class="wu-step text-center sr d1">
-        <div class="wu-step-circle">02</div>
-        <h6 class="fw-800 mb-2">Get your analysis</h6>
-        <p style="font-size:.85rem;color:var(--ink-3);line-height:1.6">We identifies your transferable skills and market positioning.</p>
-      </div>
-      <div class="wu-step-line"></div>
-      <div class="wu-step text-center sr d2">
-        <div class="wu-step-circle">03</div>
-        <h6 class="fw-800 mb-2">Explore career paths</h6>
-        <p style="font-size:.85rem;color:var(--ink-3);line-height:1.6">Choose from 3 curated roles matched to your unique background.</p>
-      </div>
-      <div class="wu-step-line"></div>
-      <div class="wu-step text-center sr d3">
-        <div class="wu-step-circle">04</div>
-        <h6 class="fw-800 mb-2">Practice with the chat</h6>
-        <p style="font-size:.85rem;color:var(--ink-3);line-height:1.6">Run mock interviews and get scored feedback until you're ready.</p>
       </div>
     </div>
   </div>
@@ -240,20 +239,23 @@
   </div>
 </section>
 
-<%# ── CTA dark ─────────────────────────────────────────────────────────────── %>
-<div class="wu-cta-dark">
+<%# ── Contact ───────────────────────────────────────────────────────────────── %>
+<div class="wu-cta-dark" id="contact">
   <div style="position:relative;z-index:1">
-    <h2 class="fw-800 fs-2" style="color:#fff;margin-bottom:.75rem">
-      Ready to rewrite your career story?
-    </h2>
+    <h2 class="fw-800 fs-2" style="color:#fff;margin-bottom:.75rem">Get in touch</h2>
     <p style="color:rgba(255,255,255,.6);max-width:460px;margin:0 auto 2rem;line-height:1.7">
-      Join 2,400+ bootcamp grads who repositioned their past and landed their first tech job.
+      Have a question? We'd love to hear from you.
     </p>
-    <%= link_to "Get started — it's free →", new_user_registration_path, class: "btn-wu btn-wu-primary btn-wu-lg" %>
-    <div class="d-flex align-items-center justify-content-center gap-4 mt-4 flex-wrap">
-      <span style="font-size:.78rem;color:rgba(255,255,255,.4)">✓ Free forever plan</span>
-      <span style="font-size:.78rem;color:rgba(255,255,255,.4)">✓ No credit card</span>
-      <span style="font-size:.78rem;color:rgba(255,255,255,.4)">✓ GDPR compliant</span>
+    <div class="d-flex align-items-center justify-content-center gap-5 flex-wrap">
+      <div class="text-center">
+        <div style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4);margin-bottom:.35rem">Email</div>
+        <a href="mailto:hello@wagonup.io" style="color:#fff;font-size:1rem;font-weight:600;text-decoration:none">hello@wagonup.io</a>
+      </div>
+      <div style="width:1px;height:2rem;background:rgba(255,255,255,.15)"></div>
+      <div class="text-center">
+        <div style="font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4);margin-bottom:.35rem">Phone</div>
+        <a href="tel:+33612345678" style="color:#fff;font-size:1rem;font-weight:600;text-decoration:none">+33 6 12 34 56 78</a>
+      </div>
     </div>
   </div>
 </div>
