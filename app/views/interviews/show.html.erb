@@ -39,37 +39,6 @@
 
       <div style="height:1px;background:var(--border);margin:1rem 0"></div>
 
-      <%# Session progress %>
-      <div style="font-size:.72rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem">
-        Session Progress
-      </div>
-
-      <% answered = @interview.answers.where.not(answer: nil).count %>
-      <% total = InterviewsController::TOTAL_QUESTIONS %>
-
-      <div class="d-flex justify-content-between" style="font-size:.82rem;margin-bottom:.3rem">
-        <span>Questions</span>
-        <span style="font-weight:600"><%= answered %>/<%= total %></span>
-      </div>
-      <div class="wu-progress mb-3">
-        <div class="wu-progress-fill" data-width="<%= (answered.to_f / total * 100).round %>%" style="width:0%"></div>
-      </div>
-
-      <% avg = @interview.avg_score %>
-      <div class="d-flex justify-content-between" style="font-size:.82rem;margin-bottom:.3rem">
-        <span>Average</span>
-        <span style="font-weight:600 <%= score_color_class(avg.to_i) %>"><%= avg > 0 ? "#{avg}/10" : "—" %></span>
-      </div>
-      <div class="wu-progress mb-3">
-        <div class="wu-progress-fill" data-width="<%= (avg / 10 * 100).round %>%" style="width:0%"></div>
-      </div>
-
-      <% if answered >= total || @interview.overall_score %>
-        <div style="margin-bottom:1rem">
-          <%= link_to "See full results →", results_interview_path(@interview), class: "btn-wu btn-wu-primary btn-wu-full" %>
-        </div>
-      <% end %>
-
       <div style="height:1px;background:var(--border);margin:1rem 0"></div>
 
       <div style="font-size:.72rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem">
